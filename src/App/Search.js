@@ -13,14 +13,16 @@ class Search extends Component {
     this.state = {
         loading: true,
         albums: [],
+        songs: [],
         filtro: ""
     }
   }
 
   async componentDidMount() {
       try {
-          const res = await fetch('/albums');
-          const json = await res.json();
+          // albums
+          var res = await fetch('/albums');
+          var json = await res.json();
           this.setState((prevState) => ({
             ...prevState,
             loading: false,
@@ -34,6 +36,23 @@ class Search extends Component {
               }
           });
           this.setState({albums: array, filtro : this.props.match.params.filtro});
+
+          // songs
+          res = await fetch('/songs');
+          json = await res.json();
+          this.setState((prevState) => ({
+            ...prevState,
+            loading: false,
+            songs: json
+          }));
+    
+          var array = [];
+          json.filter(f => {
+              if(f.name.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1) {
+                array.push(f);
+              }
+          });
+          this.setState({songs: array, filtro : this.props.match.params.filtro});
         } catch(err) {
           console.error("Error accediendo al servidor", err);
         }
@@ -41,10 +60,10 @@ class Search extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
       if(prevProps.match.params.filtro !== this.props.match.params.filtro) {
-
         try {
-            const res = await fetch('/albums');
-            const json = await res.json();
+            // albums
+            var res = await fetch('/albums');
+            var json = await res.json();
             this.setState((prevState) => ({
               ...prevState,
               loading: false,
@@ -58,6 +77,23 @@ class Search extends Component {
                 }
             });
             this.setState({albums: array, filtro : this.props.match.params.filtro});
+
+            // songs
+            res = await fetch('/songs');
+            json = await res.json();
+            this.setState((prevState) => ({
+                ...prevState,
+                loading: false,
+                songs: json
+            }));
+        
+            var array = [];
+            json.filter(f => {
+                if(f.name.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1) {
+                    array.push(f);
+                }
+            });
+            this.setState({songs: array, filtro : this.props.match.params.filtro});
           } catch(err) {
             console.error("Error accediendo al servidor", err);
           }
@@ -70,11 +106,22 @@ class Search extends Component {
         <div>
             <p> {this.props.match.params.filtro} </p>
 
+            <p> Albums </p>
             <p>
                 { this.state.loading ?
                 <p>Cargando...</p>
                 : <ul>
                     {this.state.albums.map(album => <li key={album.id}>{album.name}</li>)}
+                </ul>
+                }
+            </p>
+
+            <p> Canciones </p>
+            <p>
+                { this.state.loading ?
+                <p>Cargando...</p>
+                : <ul>
+                    {this.state.songs.map(song => <li key={song.id}>{song.name}</li>)}
                 </ul>
                 }
             </p>

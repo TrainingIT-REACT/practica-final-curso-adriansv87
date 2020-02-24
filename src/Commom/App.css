@@ -6,3 +6,11 @@
 .App h1 {
   text-align: center;
 }
+
+.FooterHeight{
+  height: 50px;
+}
+
+.LinkSinEstilo{
+  text-decoration: none !important;
+}

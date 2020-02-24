@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import bootstrap from "bootstrap"; // eslint-disable-line no-unused-vars
-import Header from '../Commom/Header';
 import {BrowserRouter as Router} from 'react-router-dom';
+import Header from '../Commom/Header';
+import Footer from '../Commom/Footer';
 import Body from './body';
 
 // Css
@@ -12,22 +13,6 @@ class App extends Component {
     super(props);
 
     this.state = {
-      loading: true,
-      albums: []
-    }
-  }
-
-  async componentDidMount() {
-    try {
-      const res = await fetch('/albums');
-      const json = await res.json();
-      this.setState((prevState) => ({
-        ...prevState,
-        loading: false,
-        albums: json
-      }));
-    } catch(err) {
-      console.error("Error accediendo al servidor", err);
     }
   }
 
@@ -37,6 +22,7 @@ class App extends Component {
         <div>
           <Header/>
             <Body/>
+          <Footer/>
         </div>
       </Router>
     );
