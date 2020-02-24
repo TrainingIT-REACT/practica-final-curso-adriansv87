@@ -12,22 +12,56 @@ class Search extends Component {
 
     this.state = {
         loading: true,
-        albums: []
+        albums: [],
+        filtro: ""
     }
   }
 
   async componentDidMount() {
-    try {
-      const res = await fetch('/albums');
-      const json = await res.json();
-      this.setState((prevState) => ({
-        ...prevState,
-        loading: false,
-        albums: json
-      }));
-    } catch(err) {
-      console.error("Error accediendo al servidor", err);
-    }
+      try {
+          const res = await fetch('/albums');
+          const json = await res.json();
+          this.setState((prevState) => ({
+            ...prevState,
+            loading: false,
+            albums: json
+          }));
+    
+          var array = [];
+          json.filter(f => {
+              if((f.name.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1) || (f.artist.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1)) {
+                array.push(f);
+              }
+          });
+          this.setState({albums: array, filtro : this.props.match.params.filtro});
+        } catch(err) {
+          console.error("Error accediendo al servidor", err);
+        }
+}
+
+  async componentDidUpdate(prevProps, prevState) {
+      if(prevProps.match.params.filtro !== this.props.match.params.filtro) {
+
+        try {
+            const res = await fetch('/albums');
+            const json = await res.json();
+            this.setState((prevState) => ({
+              ...prevState,
+              loading: false,
+              albums: json
+            }));
+      
+            var array = [];
+            json.filter(f => {
+                if((f.name.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1) || (f.artist.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1)) {
+                  array.push(f);
+                }
+            });
+            this.setState({albums: array, filtro : this.props.match.params.filtro});
+          } catch(err) {
+            console.error("Error accediendo al servidor", err);
+          }
+      }
   }
 
   render() {
