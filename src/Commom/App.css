@@ -14,3 +14,7 @@
 .LinkSinEstilo{
   text-decoration: none !important;
 }
+
+.ListaSinVinetas{
+  list-style: none;
+}

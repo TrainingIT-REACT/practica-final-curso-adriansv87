@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import bootstrap from "bootstrap"; // eslint-disable-line no-unused-vars
 import Header from '../Commom/Header';
+import Lista from '../Commom/Lista';
 import {BrowserRouter as Router} from 'react-router-dom';
 
 // Css
@@ -110,9 +111,8 @@ class Search extends Component {
             <p>
                 { this.state.loading ?
                 <p>Cargando...</p>
-                : <ul>
-                    {this.state.albums.map(album => <li key={album.id}>{album.name}</li>)}
-                </ul>
+                : <Lista objects={this.state.albums}
+                tipoLista={true}/>
                 }
             </p>
 
@@ -120,9 +120,8 @@ class Search extends Component {
             <p>
                 { this.state.loading ?
                 <p>Cargando...</p>
-                : <ul>
-                    {this.state.songs.map(song => <li key={song.id}>{song.name}</li>)}
-                </ul>
+                : <Lista objects={this.state.songs}
+                tipoLista={false}/>
                 }
             </p>
         </div>
