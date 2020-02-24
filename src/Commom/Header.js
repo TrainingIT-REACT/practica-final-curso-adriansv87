@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // Css
 import './App.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 class Header extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class Header extends Component {
   }
 
   buscar() {
-    
+    this.props.history.push({pathname:`/search/${this.state.filtro}`});
   }
 
   render() {
@@ -65,4 +65,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);
