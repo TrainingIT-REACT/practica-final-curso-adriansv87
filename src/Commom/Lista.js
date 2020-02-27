@@ -27,8 +27,8 @@ class Lista extends Component {
   render() {
     return (
       <div>
-          <table class="table">
-            <thead class="thead-dark">
+          <table className="table">
+            <thead className="thead-dark">
                 <tr>
                 {this.props.tipoLista ? <th scope="col"></th> : ''}
                 <th scope="col">Nombre</th>

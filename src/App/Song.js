@@ -60,6 +60,10 @@ class Song extends Component {
           <div>
             <p>{this.state.song.name}</p>
 
+            <div className="progress">
+              <div className="progress-bar" role="progressbar"></div>
+            </div>
+
             <button type="button">
               <FontAwesomeIcon icon="play" />
             </button>
