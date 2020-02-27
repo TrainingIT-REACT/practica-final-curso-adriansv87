@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import bootstrap from "bootstrap"; // eslint-disable-line no-unused-vars
-import Header from '../Commom/Header';
 import Lista from '../Commom/Lista';
 import {BrowserRouter as Router} from 'react-router-dom';
 
@@ -13,6 +11,7 @@ class Album extends Component {
 
     this.state = {
         loading: true,
+        album: null,
         albums: [],
         songs: [],
         filtro: ""
@@ -30,17 +29,18 @@ class Album extends Component {
             albums: json
           }));
     
-          var array = [];
+          var objeto = null;
           json.filter(f => {
-              if((f.name.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1) || (f.artist.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1)) {
-                array.push(f);
+              if(f.id == this.props.match.params.id) {
+                objeto = f;
               }
           });
-          this.setState({albums: array, filtro : this.props.match.params.filtro});
+          this.setState({album: objeto});
 
           // songs
           res = await fetch('/songs');
           json = await res.json();
+          var array = [];
           this.setState((prevState) => ({
             ...prevState,
             loading: false,
@@ -49,72 +49,36 @@ class Album extends Component {
     
           var array = [];
           json.filter(f => {
-              if(f.name.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1) {
-                array.push(f);
-              }
-          });
-          this.setState({songs: array, filtro : this.props.match.params.filtro});
+            if(f.album_id == this.props.match.params.id) {
+              array.push(f);
+            }
+        });
+          this.setState({songs: array});
         } catch(err) {
           console.error("Error accediendo al servidor", err);
         }
 }
 
-  async componentDidUpdate(prevProps, prevState) {
-      if(prevProps.match.params.filtro !== this.props.match.params.filtro) {
-        try {
-            // albums
-            var res = await fetch('/albums');
-            var json = await res.json();
-            this.setState((prevState) => ({
-              ...prevState,
-              loading: false,
-              albums: json
-            }));
-      
-            var array = [];
-            json.filter(f => {
-                if((f.name.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1) || (f.artist.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1)) {
-                  array.push(f);
-                }
-            });
-            this.setState({albums: array, filtro : this.props.match.params.filtro});
-
-            // songs
-            res = await fetch('/songs');
-            json = await res.json();
-            this.setState((prevState) => ({
-                ...prevState,
-                loading: false,
-                songs: json
-            }));
-        
-            var array = [];
-            json.filter(f => {
-                if(f.name.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1) {
-                    array.push(f);
-                }
-            });
-            this.setState({songs: array, filtro : this.props.match.params.filtro});
-          } catch(err) {
-            console.error("Error accediendo al servidor", err);
-          }
-      }
-  }
-
   render() {
     return (
-
         <div>
+          {this.state.album != undefined ?
+            <diV>
             <p> {this.props.match.params.filtro} </p>
 
-            <p> Albums </p>
-            <p>
-                { this.state.loading ?
-                <p>Cargando...</p>
-                : <Lista objects={this.state.albums}
-                tipoLista={true}/>
-                }
-            </p>
+            <div className="row">
+              <div className="col-md-2">
+                <img src={this.state.album.cover} alt="cover" height="150" width="150"/>
+              </div>
+              <div className="col-md-3">
+                <div className="row">
+                  <strong> {this.state.album.name} </strong>
+                </div>
+                <div className="row">
+                  <p> {this.state.album.artist} </p>
+                </div>
+              </div>
+            </div>
 
             <p> Canciones </p>
             <p>
@@ -124,6 +88,10 @@ class Album extends Component {
                 tipoLista={false}/>
                 }
             </p>
+            </diV>
+            :
+            <div/>
+          }
         </div>
     );
   }

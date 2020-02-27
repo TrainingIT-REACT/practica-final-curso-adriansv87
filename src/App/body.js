@@ -3,6 +3,8 @@ import {Route, Switch, withRouter} from 'react-router-dom';
 import Inicio from './Inicio';
 import Search from './Search';
 import Albums from './Albums';
+import Album from './Album';
+import Song from './Song';
 
 export const Body = () => (
 
@@ -11,6 +13,8 @@ export const Body = () => (
         <Switch>
             <Route exact path="/" component={Inicio}/>
             <Route exact path="/search/:filtro" component={Search}/>
+            <Route exact path="/album/:id" component={Album}/>
+            <Route exact path="/song/:id" component={Song}/>
             
             <Route path="/search" component={Search}/>
             <Route path="/albums" component={Albums}/>
