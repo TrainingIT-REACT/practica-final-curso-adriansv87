@@ -55,7 +55,7 @@ class Header extends Component {
             </form>
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <NavLink exact className="nav-link text-white" to="/">Inicio de Sesión</NavLink>
+                <NavLink exact className="nav-link text-white" to="/inicioSesion">Inicio de Sesión</NavLink>
               </li>
             </ul>
           </div>
