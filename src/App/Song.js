@@ -88,21 +88,25 @@ class Song extends Component {
       }
     }
 
-    // this.setState.song = listaCanciones[i];
+    if ((posicionActualEnLista != null) && (posicionActualEnLista > listaCanciones.length)) {
+      this.setState.song = listaCanciones[posicionActualEnLista - 1];
+    }
   }
 
   posteriorCancion(){
     var listaCanciones = this.state.songs;
 
     var posicionActualEnLista = null;
-    for (var i = listaCanciones.length; i > 0 ; i--) {
+    for (var i = 0; i < listaCanciones.length ; i++) {
       if(listaCanciones[i].id == this.props.match.id) {
         posicionActualEnLista = i;
         break;
       }
     }
 
-    // this.setState.song = listaCanciones[i];
+    if ((posicionActualEnLista != null) && (posicionActualEnLista < listaCanciones.length)) {
+      this.setState.song = listaCanciones[posicionActualEnLista + 1];
+    }
   }
 
   render() {
