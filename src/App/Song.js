@@ -39,6 +39,30 @@ class Song extends Component {
       }
   }
 
+  async componentDidUpdate(prevProps, prevState) {
+    if(prevProps.match.params.id !== this.props.match.params.id) {
+      try {
+        var res = await fetch('/songs');
+        var json = await res.json();
+        this.setState((prevState) => ({
+          ...prevState,
+          loading: false,
+          songs: json
+        }));
+  
+        var objeto = null;
+        json.filter(f => {
+          if(f.id == this.props.match.params.id) {
+            objeto = f;
+          }
+        });
+        this.setState({song: objeto});
+      } catch(err) {
+        console.error("Error accediendo al servidor", err);
+      }
+    }
+  }
+
   transformarSegundos(time){
     var hours = Math.floor( time / 3600 );  
     var minutes = Math.floor( (time % 3600) / 60 );
@@ -51,6 +75,34 @@ class Song extends Component {
     seconds = seconds < 10 ? '0' + seconds : seconds;
     
     return minutes + ":" + seconds;  // 2:41:30
+  }
+
+  anteriorCancion(){
+    var listaCanciones = this.state.songs;
+
+    var posicionActualEnLista = null;
+    for (var i = listaCanciones.length; i > 0 ; i--) {
+      if(listaCanciones[i].id == this.props.match.id) {
+        posicionActualEnLista = i;
+        break;
+      }
+    }
+
+    // this.setState.song = listaCanciones[i];
+  }
+
+  posteriorCancion(){
+    var listaCanciones = this.state.songs;
+
+    var posicionActualEnLista = null;
+    for (var i = listaCanciones.length; i > 0 ; i--) {
+      if(listaCanciones[i].id == this.props.match.id) {
+        posicionActualEnLista = i;
+        break;
+      }
+    }
+
+    // this.setState.song = listaCanciones[i];
   }
 
   render() {
@@ -72,7 +124,7 @@ class Song extends Component {
               <FontAwesomeIcon icon="pause" />
             </button>
 
-            <button type="button">
+            <button type="button" onClick={this.anteriorCancion()}>
               <FontAwesomeIcon icon="step-backward" />
             </button>
 
@@ -84,7 +136,7 @@ class Song extends Component {
               <FontAwesomeIcon icon="forward" />
             </button>
 
-            <button type="button">
+            <button type="button" onClick={this.posteriorCancion()}>
               <FontAwesomeIcon icon="step-forward" />
             </button>
 
