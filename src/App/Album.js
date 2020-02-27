@@ -57,13 +57,13 @@ class Album extends Component {
         } catch(err) {
           console.error("Error accediendo al servidor", err);
         }
-}
+  }
 
   render() {
     return (
         <div>
           {this.state.album != undefined ?
-            <diV>
+            <div>
             <p> {this.props.match.params.filtro} </p>
 
             <div className="row">
@@ -88,7 +88,7 @@ class Album extends Component {
                 tipoLista={false}/>
                 }
             </p>
-            </diV>
+            </div>
             :
             <div/>
           }

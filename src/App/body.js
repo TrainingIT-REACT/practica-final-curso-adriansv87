@@ -7,7 +7,6 @@ import Album from './Album';
 import Song from './Song';
 
 export const Body = () => (
-
     <div className="container">
         <br/>
         <Switch>
@@ -21,7 +20,6 @@ export const Body = () => (
             <Route path="/" component={Inicio}/>
         </Switch>
     </div>
-
 );
 
 export default withRouter(Body);

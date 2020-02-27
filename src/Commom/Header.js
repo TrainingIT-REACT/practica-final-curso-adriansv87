@@ -54,7 +54,7 @@ class Header extends Component {
               <button className="btn btn-primary my-2 my-sm-0 text-white" type="submit" onClick={() => this.buscar()}>Search</button>
             </form>
             <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
+              <li className="nav-item">
                 <NavLink exact className="nav-link text-white" to="/">Inicio de Sesión</NavLink>
               </li>
             </ul>

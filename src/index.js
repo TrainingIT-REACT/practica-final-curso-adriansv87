@@ -5,6 +5,10 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap'; 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop);
 
 ReactDOM.render(
   <main>
