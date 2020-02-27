@@ -46,7 +46,7 @@ class Header extends Component {
                 <NavLink exact className="nav-link text-white" to="/">Inicio <span className="sr-only">(current)</span></NavLink>
               </li>
               <li className="nav-item">
-                <NavLink exact className="nav-link text-white" to="/">Álbums</NavLink>
+                <NavLink exact className="nav-link text-white" to="/albums">Álbums</NavLink>
               </li>
             </ul>
             <form className="form-inline my-2 my-lg-0">

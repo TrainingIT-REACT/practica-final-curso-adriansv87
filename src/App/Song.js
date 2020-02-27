@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 
 // Css
 import './App.css';
 
-class Lista extends Component {
+class Song extends Component {
 
   constructor(props) {
     super(props);
@@ -49,4 +48,4 @@ class Lista extends Component {
   }
 }
 
-export default withRouter(Lista);
+export default Song;
