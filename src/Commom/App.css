@@ -18,3 +18,7 @@
 .ListaSinVinetas{
   list-style: none;
 }
+
+.StyloCursor{
+  cursor: pointer;
+}

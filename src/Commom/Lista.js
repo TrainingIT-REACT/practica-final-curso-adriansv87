@@ -37,7 +37,7 @@ class Lista extends Component {
             </thead>
             <tbody>
                 {this.props.objects.map(objeto => 
-                <tr key={objeto.id} onClick={() => this.props.tipoLista ? this.props.history.push({pathname:`/album/${objeto.id}`}) : this.props.history.push({pathname:`/song/${objeto.id}`})}>
+                <tr className='StyloCursor' key={objeto.id} onClick={() => this.props.tipoLista ? this.props.history.push({pathname:`/album/${objeto.id}`}) : this.props.history.push({pathname:`/song/${objeto.id}`})}>
                     {this.props.tipoLista ? <td> <img src={objeto.cover} alt="cover" height="42" width="42"/></td> : ''}
                     <td>{objeto.name}</td>
                     {this.props.tipoLista ? <td>{objeto.artist}</td> : <td>{this.transformarSegundos(objeto.seconds)}</td>}
