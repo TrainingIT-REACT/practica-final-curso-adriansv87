@@ -10,4 +10,3 @@ actions.forEach(action => {
 });
 
 export default actionTypes;
-  

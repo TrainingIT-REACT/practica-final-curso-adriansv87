@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import store from '../store'; // Store
 
 // Css
 import './App.css';
@@ -9,7 +10,8 @@ class Header extends Component {
     super(props);
 
     this.state = {
-      filtro: ""
+      filtro: "",
+      username: ""
     }
   }
 
@@ -22,6 +24,12 @@ class Header extends Component {
         loading: false,
         albums: json
       }));
+
+      store.subscribe(() => {
+        if (store.getState().user.user.username != null) {
+          this.setState({username: store.getState().user.user.username});
+        }
+      });
     } catch(err) {
       console.error("Error accediendo al servidor", err);
     }
@@ -55,7 +63,9 @@ class Header extends Component {
             </form>
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <NavLink exact className="nav-link text-white" to="/inicioSesion">Inicio de Sesión</NavLink>
+                {this.state.username ? 
+                <NavLink exact className="nav-link text-white" to="/inicioSesion"> {this.state.username} </NavLink> : 
+                <NavLink exact className="nav-link text-white" to="/inicioSesion">Inicio de Sesión</NavLink> }
               </li>
             </ul>
           </div>
