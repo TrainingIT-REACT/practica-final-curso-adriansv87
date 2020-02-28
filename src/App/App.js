@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import bootstrap from "bootstrap"; // eslint-disable-line no-unused-vars
 import {BrowserRouter as Router} from 'react-router-dom';
 import Header from '../Commom/Header';
 import Footer from '../Commom/Footer';

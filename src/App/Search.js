@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import bootstrap from "bootstrap"; // eslint-disable-line no-unused-vars
-import Header from '../Commom/Header';
 import Lista from '../Commom/Lista';
-import {BrowserRouter as Router} from 'react-router-dom';
 
 // Css
 import './App.css';
