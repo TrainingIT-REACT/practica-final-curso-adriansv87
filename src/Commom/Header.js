@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import store from '../store'; // Store
 import * as actionUsuario from '../actions/actionUser';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Css
 import './App.css';
@@ -37,6 +38,14 @@ class Header extends Component {
       console.error("Error accediendo al servidor", err);
     }
   }
+
+  /*
+  componentDidUpdate() {
+    if ((store.getState().user.user.username != null) && (this.state.username != store.getState().user.user.username)) {
+      this.setState({username: store.getState().user.user.username});
+    }
+  }
+  */
 
   buscar() {
     this.props.history.push({pathname:`/search/${this.state.filtro}`});
@@ -76,7 +85,7 @@ class Header extends Component {
               </li>
               <li className="nav-item">
                 {this.state.username ? 
-                <button className="btn btn-primary my-2 my-sm-0 text-white" type="submit" onClick={() => this.cerrarSesion()}>Log Out</button> : ''}
+                  <button type="button" onClick={() => this.cerrarSesion()}> <FontAwesomeIcon icon="sign-out-alt" exact className="TamButton" /> </button> : ''}
               </li>
             </ul>
           </div>

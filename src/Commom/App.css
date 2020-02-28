@@ -22,3 +22,8 @@
 .StyloCursor{
   cursor: pointer;
 }
+
+.TamButton{
+  height : 26px;
+  width: 26px;
+}
