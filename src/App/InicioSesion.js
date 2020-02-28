@@ -3,7 +3,7 @@ import bootstrap from "bootstrap"; // eslint-disable-line no-unused-vars
 import Header from '../Commom/Header';
 import {BrowserRouter as Router} from 'react-router-dom';
 import store from '../store'; // Store
-import * as ingresar from '../actions/ingresar';
+import * as ingresar from '../actions/actionUser';
 
 // Css
 import './App.css';

@@ -2,7 +2,7 @@ import types from '../actions/types';
 
 // Estado inicial
 const initialState = {
-  user: ""
+  user: {}
 }
 
 // Implementamos el reducer
@@ -11,6 +11,10 @@ const reducer = (state = initialState, action) => {
     case types.INGRESAR:
       return {
         user: action.user
+      };
+    case types.SALIR:
+      return {
+        user: {}
       };
     default:
       return state;

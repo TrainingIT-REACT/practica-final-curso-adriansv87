@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import store from '../store'; // Store
+import * as actionUsuario from '../actions/actionUser';
 
 // Css
 import './App.css';
@@ -28,6 +29,8 @@ class Header extends Component {
       store.subscribe(() => {
         if (store.getState().user.user.username != null) {
           this.setState({username: store.getState().user.user.username});
+        } else {
+          this.setState({username: null});
         }
       });
     } catch(err) {
@@ -37,6 +40,10 @@ class Header extends Component {
 
   buscar() {
     this.props.history.push({pathname:`/search/${this.state.filtro}`});
+  }
+
+  cerrarSesion() {
+    store.dispatch(actionUsuario.salir());
   }
 
   render() {
@@ -66,6 +73,10 @@ class Header extends Component {
                 {this.state.username ? 
                 <NavLink exact className="nav-link text-white" to="/inicioSesion"> {this.state.username} </NavLink> : 
                 <NavLink exact className="nav-link text-white" to="/inicioSesion">Inicio de Sesión</NavLink> }
+              </li>
+              <li className="nav-item">
+                {this.state.username ? 
+                <button className="btn btn-primary my-2 my-sm-0 text-white" type="submit" onClick={() => this.cerrarSesion()}>Log Out</button> : ''}
               </li>
             </ul>
           </div>

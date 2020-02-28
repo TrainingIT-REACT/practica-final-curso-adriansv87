@@ -1,6 +1,7 @@
 // Definimos la lista de acciones
 const actions = [
-    "INGRESAR"
+    "INGRESAR",
+    "SALIR"
   ];
 
 // Las convertimos en un objeto
