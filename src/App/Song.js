@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './App.css';
 
 class Song extends Component {
-
   constructor(props) {
     super(props);
 
@@ -81,15 +80,18 @@ class Song extends Component {
     var listaCanciones = this.state.songs;
 
     var posicionActualEnLista = null;
-    for (var i = listaCanciones.length; i > 0 ; i--) {
-      if(listaCanciones[i].id == this.props.match.id) {
+    for (var i = (listaCanciones.length - 1); i >= 0 ; i--) {
+      if(listaCanciones[i].id == this.props.match.params.id) {
         posicionActualEnLista = i;
         break;
       }
     }
 
-    if ((posicionActualEnLista != null) && (posicionActualEnLista > listaCanciones.length)) {
-      this.setState.song = listaCanciones[posicionActualEnLista - 1];
+    if ((posicionActualEnLista != null) && (posicionActualEnLista <= (listaCanciones.length - 1))) {
+      if (posicionActualEnLista == 0) {
+        posicionActualEnLista = listaCanciones.length;
+      }
+      this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista - 1].id}`});
     }
   }
 
@@ -97,22 +99,25 @@ class Song extends Component {
     var listaCanciones = this.state.songs;
 
     var posicionActualEnLista = null;
-    for (var i = 0; i < listaCanciones.length ; i++) {
-      if(listaCanciones[i].id == this.props.match.id) {
+    for (var i = 0; i <= (listaCanciones.length - 1) ; i++) {
+      if(listaCanciones[i].id == this.props.match.params.id) {
         posicionActualEnLista = i;
         break;
       }
     }
 
-    if ((posicionActualEnLista != null) && (posicionActualEnLista < listaCanciones.length)) {
-      this.setState.song = listaCanciones[posicionActualEnLista + 1];
+    if ((posicionActualEnLista != null) && (posicionActualEnLista <= (listaCanciones.length - 1))) {
+      if (posicionActualEnLista == (listaCanciones.length - 1)) {
+        posicionActualEnLista = -1;
+      }
+      this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista + 1].id}`});
     }
   }
 
   render() {
     return (
       <div>
-        {this.state.song != undefined ?
+        {this.state.song != undefined && this.state.songs != undefined ?
           <div>
             <p>{this.state.song.name}</p>
 
@@ -128,7 +133,7 @@ class Song extends Component {
               <FontAwesomeIcon icon="pause" />
             </button>
 
-            <button type="button" onClick={this.anteriorCancion()}>
+            <button type="button" onClick={() => this.anteriorCancion()}>
               <FontAwesomeIcon icon="step-backward" />
             </button>
 
@@ -140,7 +145,7 @@ class Song extends Component {
               <FontAwesomeIcon icon="forward" />
             </button>
 
-            <button type="button" onClick={this.posteriorCancion()}>
+            <button type="button" onClick={() => this.posteriorCancion()}>
               <FontAwesomeIcon icon="step-forward" />
             </button>
 
