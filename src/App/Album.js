@@ -65,18 +65,29 @@ class Album extends Component {
   almacenarAlbumVisitado(){
 
     var listaIdsAlbumsVisitados = [];
-    if (store.getState().albumsVisitados.albumsVisitados != null) {
+    if ((store.getState().albumsVisitados.albumsVisitados != null) && (store.getState().albumsVisitados.albumsVisitados.length > 0)) {
+      var anadir = true;
       listaIdsAlbumsVisitados = store.getState().albumsVisitados.albumsVisitados;
-      listaIdsAlbumsVisitados.push(this.props.match.params.id);
+      listaIdsAlbumsVisitados.filter(f => {
+        if(f === this.props.match.params.id) {
+          anadir = false;
+          
+        }
+      });
 
-//    window.alert("Store Album: " + store.getState().albumsVisitados.albumsVisitados + " - " + this.props.match.params.id);
+      if (anadir == true) {
+        listaIdsAlbumsVisitados.push(this.props.match.params.id);
+        store.dispatch(visitarAlbum.listaAlbumsVisitados(listaIdsAlbumsVisitados));
+      }
+      
+      window.alert("Store Album: " + store.getState().albumsVisitados.albumsVisitados + " - " + this.props.match.params.id);
       console.log(`Se han modificado los datos en el store`);
       console.log(`Store Album:` + store.getState().albumsVisitados.albumsVisitados);
     } else {
+      listaIdsAlbumsVisitados.push(this.props.match.params.id);
+      store.dispatch(visitarAlbum.listaAlbumsVisitados(listaIdsAlbumsVisitados));
       console.log(store.getState());
     }
-
-    store.dispatch(visitarAlbum.listaAlbumsVisitados(listaIdsAlbumsVisitados));
   }
 
   render() {
