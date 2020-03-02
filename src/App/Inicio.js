@@ -3,6 +3,8 @@ import bootstrap from "bootstrap"; // eslint-disable-line no-unused-vars
 import Header from '../Commom/Header';
 import {BrowserRouter as Router} from 'react-router-dom';
 import Lista from '../Commom/Lista';
+import store from '../store'; // Store
+import * as escucharCancion from '../actions/actionEscucharCancion';
 
 // Css
 import './App.css';
@@ -13,7 +15,7 @@ class Inicio extends Component {
 
     this.state = {
       loading: true,
-      albums: []
+      listaIdsCancionesEscuchadas : []
     }
   }
 
@@ -34,8 +36,24 @@ class Inicio extends Component {
         }
       });
       this.setState({song: objeto});
+      this.cargaListaCancionesEscuchadas(json);
     } catch(err) {
       console.error("Error accediendo al servidor", err);
+    }
+  }
+
+  cargaListaCancionesEscuchadas(json) {
+    if ((store.getState().cancionesEscuchadas.cancionesEscuchadas != null) && (store.getState().cancionesEscuchadas.cancionesEscuchadas.length > 0)) {
+      var idsLisCanciones = store.getState().cancionesEscuchadas.cancionesEscuchadas;
+      var songs = [];
+      json.filter(f => {
+        idsLisCanciones.filter(e => {
+          if(f.id == e){
+            songs.push(f);
+          }
+        })
+      });
+      this.setState({listaIdsCancionesEscuchadas:songs});
     }
   }
 
@@ -45,14 +63,18 @@ class Inicio extends Component {
       <div>
         <h1>Música Recomendada</h1>
         <p/>
-            <p> Canciones </p>
-            <p>
-                { this.state.loading ?
-                <p>Cargando...</p>
-                : <Lista objects={this.state.songs}
-                tipoLista={false}/>
-                }
-            </p>
+          {this.state.listaIdsCancionesEscuchadas.length > 0 ? 
+            <div>
+              <p> Canciones Escuchadas </p>
+              <p>
+                  { this.state.loading ?
+                  <p>Cargando...</p>
+                  : <Lista objects={this.state.listaIdsCancionesEscuchadas}
+                  tipoLista={false}/>
+                  }
+              </p>
+            </div>
+          : <div/> }
       </div>
     );
   }
