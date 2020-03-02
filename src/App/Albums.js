@@ -15,20 +15,20 @@ class Albums extends Component {
   }
 
   async componentDidMount() {
-      try {
-          // albums
-          var res = await fetch('/albums');
-          var json = await res.json();
-          this.setState((prevState) => ({
-            ...prevState,
-            loading: false,
-            albums: json
-          }));
+    try {
+        // albums
+        var res = await fetch('/albums');
+        var json = await res.json();
+        this.setState((prevState) => ({
+          ...prevState,
+          loading: false,
+          albums: json
+        }));
 
-        } catch(err) {
-          console.error("Error accediendo al servidor", err);
-        }
-}
+      } catch(err) {
+        console.error("Error accediendo al servidor", err);
+      }
+  }
 
   render() {
     return (

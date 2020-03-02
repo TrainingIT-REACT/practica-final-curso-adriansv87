@@ -18,24 +18,24 @@ class Song extends Component {
 
   async componentDidMount() {
     try {
-        var res = await fetch('/songs');
-        var json = await res.json();
-        this.setState((prevState) => ({
-          ...prevState,
-          loading: false,
-          songs: json
-        }));
-  
-        var objeto = null;
-        json.filter(f => {
-          if(f.id == this.props.match.params.id) {
-            objeto = f;
-          }
-        });
-        this.setState({song: objeto});
-      } catch(err) {
-        console.error("Error accediendo al servidor", err);
-      }
+      var res = await fetch('/songs');
+      var json = await res.json();
+      this.setState((prevState) => ({
+        ...prevState,
+        loading: false,
+        songs: json
+      }));
+
+      var objeto = null;
+      json.filter(f => {
+        if(f.id == this.props.match.params.id) {
+          objeto = f;
+        }
+      });
+      this.setState({song: objeto});
+    } catch(err) {
+      console.error("Error accediendo al servidor", err);
+    }
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -48,7 +48,7 @@ class Song extends Component {
           loading: false,
           songs: json
         }));
-  
+
         var objeto = null;
         json.filter(f => {
           if(f.id == this.props.match.params.id) {
@@ -66,13 +66,13 @@ class Song extends Component {
     var hours = Math.floor( time / 3600 );  
     var minutes = Math.floor( (time % 3600) / 60 );
     var seconds = time % 60;
-    
+
     //Anteponiendo un 0 a los minutos si son menos de 10 
     minutes = minutes < 10 ? '0' + minutes : minutes;
-    
+
     //Anteponiendo un 0 a los segundos si son menos de 10 
     seconds = seconds < 10 ? '0' + seconds : seconds;
-    
+
     return minutes + ":" + seconds;  // 2:41:30
   }
 

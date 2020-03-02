@@ -15,7 +15,7 @@ export const Body = () => (
             <Route exact path="/search/:filtro" component={Search}/>
             <Route exact path="/album/:id" component={Album}/>
             <Route exact path="/song/:id" component={Song}/>
-            
+
             <Route path="/inicioSesion" component={InicioSesion}/>
             <Route path="/search" component={Search}/>
             <Route path="/albums" component={Albums}/>
