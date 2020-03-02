@@ -24,6 +24,17 @@ class Lista extends Component {
     return minutes + ":" + seconds;  // 2:41:30
   }
 
+  montarLink(id) {
+    if (this.props.tipoLista) {
+      this.props.history.push({pathname:`/album/${id}`})
+    } else {
+      if (this.props.albumId != undefined) {
+        this.props.history.push({pathname:`/song/${id}/${this.props.albumId}`})
+     } else {
+        this.props.history.push({pathname:`/song/${id}`})}
+    }
+  }
+
   render() {
     return (
       <div>
@@ -37,7 +48,7 @@ class Lista extends Component {
             </thead>
             <tbody>
                 {this.props.objects.map(objeto => 
-                <tr className='StyloCursor' key={objeto.id} onClick={() => this.props.tipoLista ? this.props.history.push({pathname:`/album/${objeto.id}`}) : this.props.history.push({pathname:`/song/${objeto.id}`})}>
+                <tr className='StyloCursor' key={objeto.id} onClick={() => this.montarLink(objeto.id)}>
                     {this.props.tipoLista ? <td> <img src={objeto.cover} alt="cover" height="42" width="42"/></td> : ''}
                     <td>{objeto.name}</td>
                     {this.props.tipoLista ? <td>{objeto.artist}</td> : <td>{this.transformarSegundos(objeto.seconds)}</td>}

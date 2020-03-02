@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Css
 import './App.css';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink, withRouter, Redirect } from 'react-router-dom';
 
 class Header extends Component {
   constructor(props) {
@@ -13,7 +13,8 @@ class Header extends Component {
 
     this.state = {
       filtro: "",
-      username: ""
+      username: "",
+      pathname: null
     }
   }
 
@@ -47,8 +48,13 @@ class Header extends Component {
   }
   */
 
-  buscar() {
+  buscar(e) {
+    e.preventDefault();
+    var urlPass = this.state.filtro.toLowerCase();
+    //this.setState({pathname:`/search/${urlPass}`,filtro : ""});
+
     this.props.history.push({pathname:`/search/${this.state.filtro}`});
+    this.setState({filtro : ""});
   }
 
   cerrarSesion() {
@@ -58,6 +64,7 @@ class Header extends Component {
   render() {
     return (
       <div>
+        {this.state.pathname ? <Redirect exact to={this.state.pathname}/> : <div> </div>}
         <nav className="navbar navbar-expand-lg navbar-light text-white bg-dark">
           <a className="navbar-brand text-white" href="#">Reactify</a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,8 +81,8 @@ class Header extends Component {
               </li>
             </ul>
             <form className="form-inline my-2 my-lg-0">
-              <input className="form-control mr-sm-2" type="text" onChange={e => this.setState({filtro:e.target.value})}/>
-              <button className="btn btn-primary my-2 my-sm-0 text-white" type="submit" onClick={() => this.buscar()}>Search</button>
+              <input className="form-control mr-sm-2" type="text" onChange={e => this.setState({filtro:e.target.value})} value={this.state.filtro}/>
+              <button className="btn btn-primary my-2 my-sm-0 text-white" type="submit" onClick={(e) => this.buscar(e)}>Search</button>
             </form>
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">

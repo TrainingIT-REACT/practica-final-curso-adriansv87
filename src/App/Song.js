@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {withRouter, Link} from 'react-router-dom' ;
 import Lista from '../Commom/Lista';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import store from '../store'; // Store
@@ -14,7 +15,8 @@ class Song extends Component {
     this.state = {
       loading: true,
       song: null,
-      songs: []
+      songs: [],
+      album: null
     }
   }
 
@@ -22,10 +24,21 @@ class Song extends Component {
     try {
       var res = await fetch('/songs');
       var json = await res.json();
+      var lisCanciones = [];
+      if(this.props.match.params.album_id != undefined) {
+        json.filter(f => {
+          if(f.album_id == this.props.match.params.album_id) {
+            lisCanciones.push(f);
+          }
+        });
+      } else {
+        lisCanciones = json;
+      }
+
       this.setState((prevState) => ({
         ...prevState,
         loading: false,
-        songs: json
+        songs: lisCanciones
       }));
 
       var objeto = null;
@@ -35,6 +48,7 @@ class Song extends Component {
         }
       });
       this.setState({song: objeto});
+      this.getNombreAlbum();
     } catch(err) {
       console.error("Error accediendo al servidor", err);
     }
@@ -45,10 +59,22 @@ class Song extends Component {
       try {
         var res = await fetch('/songs');
         var json = await res.json();
+        var lisCanciones = [];
+        if(this.props.match.params.album_id != undefined) {
+          json.filter(f => {
+            if(f.album_id == this.props.match.params.album_id) {
+              lisCanciones.push(f);
+            }
+          });
+        } else {
+          lisCanciones = json;
+        }
+
         this.setState((prevState) => ({
           ...prevState,
           loading: false,
-          songs: json
+          songs: json,
+          songs: lisCanciones
         }));
 
         var objeto = null;
@@ -58,6 +84,7 @@ class Song extends Component {
           }
         });
         this.setState({song: objeto});
+        this.getNombreAlbum();
       } catch(err) {
         console.error("Error accediendo al servidor", err);
       }
@@ -93,7 +120,12 @@ class Song extends Component {
       if (posicionActualEnLista == 0) {
         posicionActualEnLista = listaCanciones.length;
       }
-      this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista - 1].id}`});
+
+      if (this.props.match.params.album_id) {
+        this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista - 1].id}/${this.props.match.params.album_id}`});
+      } else {
+        this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista - 1].id}`});
+      }
     }
   }
 
@@ -112,7 +144,12 @@ class Song extends Component {
       if (posicionActualEnLista == (listaCanciones.length - 1)) {
         posicionActualEnLista = -1;
       }
-      this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista + 1].id}`});
+
+      if (this.props.match.params.album_id) {
+        this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista + 1].id}/${this.props.match.params.album_id}`});
+      } else {
+        this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista + 1].id}`});
+      }
     }
   }
 
@@ -132,7 +169,7 @@ class Song extends Component {
         listaIdsCancionesEscuchadas.push(this.props.match.params.id);
         store.dispatch(escucharCancion.listaCancionesEscuchadas(listaIdsCancionesEscuchadas));
       }
-      
+
 //    window.alert("Store Canciones: " + store.getState().cancionesEscuchadas.cancionesEscuchadas + " - " + this.props.match.params.id);
       console.log(`Se han modificado los datos en el store`);
       console.log(`Store Canciones:` + store.getState().cancionesEscuchadas.cancionesEscuchadas);
@@ -143,12 +180,25 @@ class Song extends Component {
     }
   }
 
+  async getNombreAlbum() {
+    var res = await fetch('/albums');
+    var json = await res.json();
+    json.filter(f => {
+        if(f.id == this.props.match.params.album_id) {
+          this.setState({album:f});
+        }
+    });
+  }
+
   render() {
     return (
       <div>
-        {this.state.song != undefined && this.state.songs != undefined ?
+        {this.state.song != undefined && this.state.album != undefined && this.state.songs != undefined ?
           <div>
-            <p>{this.state.song.name}</p>
+            <p> 
+              <Link to={`/album/${this.props.match.params.album_id}`}>{this.state.album.name}</Link> &nbsp; 
+              {this.state.song.name}
+            </p>
 
             <div className="progress">
               <div className="progress-bar" role="progressbar"></div>
@@ -187,7 +237,7 @@ class Song extends Component {
             <p>
                 { this.state.loading ?
                 <p>Cargando...</p>
-                : <Lista objects={this.state.songs}
+                : <Lista objects={this.state.songs}albumId={this.props.match.params.album_id}
                 tipoLista={false}/>
                 }
             </p>

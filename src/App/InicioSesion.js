@@ -19,8 +19,8 @@ class InicioSesion extends Component {
     }
   }
 
-  validarLogin(){
-
+  validarLogin(e){
+    e.preventDefault();
     const unsubscribe = store.subscribe(() => {
       if (store.getState().user.user.username != null) {
 //        window.alert("Store Username: " + store.getState().user.user.username);
@@ -37,6 +37,7 @@ class InicioSesion extends Component {
     var user = {username : this.state.username, password : this.state.password, nombre : '', apellidos : ''};
     store.dispatch(ingresar.usuario(user));
     unsubscribe();
+    this.props.history.push({pathname:'/'});
   }
 
   render() {
@@ -52,7 +53,7 @@ class InicioSesion extends Component {
             <div className="form-group">
               <div className="row">
                 <div className="col-sm-6 col-sm-offset-3">
-                  <button type="button" onClick={() => this.validarLogin()}> Inicio Sesión </button>
+                  <button type="submit" onClick={(e) => this.validarLogin(e)}> Inicio Sesión </button>
                 </div>
               </div>
             </div>

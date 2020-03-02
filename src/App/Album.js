@@ -114,7 +114,7 @@ class Album extends Component {
             <p>
                 { this.state.loading ?
                 <p>Cargando...</p>
-                : <Lista objects={this.state.songs}
+                : <Lista objects={this.state.songs} albumId={this.props.match.params.id}
                 tipoLista={false}/>
                 }
             </p>
