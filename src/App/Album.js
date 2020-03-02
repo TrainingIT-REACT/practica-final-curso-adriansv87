@@ -109,9 +109,9 @@ class Album extends Component {
 
   render() {
     return (
-        <div>
-          {this.state.album != undefined ?
-            <div>
+      <div>
+        {this.state.album != undefined ?
+          <div>
             <p> {this.props.match.params.filtro} </p>
 
             <div className="row">
@@ -132,16 +132,15 @@ class Album extends Component {
             <p>
                 { this.state.loading ?
                 <p>Cargando...</p>
-                : <Lista objects={this.state.songs} albumId={this.props.match.params.id}
+                : <Lista objects={this.state.songs} albumId={this.props.match.params.id} tempoTotal={this.transformarSegundos(this.state.tiempoTotal)}
                 tipoLista={false}/>
                 }
             </p>
-            <p> Duración Total Album: {this.transformarSegundos(this.state.tiempoTotal)} seg. </p>
-            </div>
-            :
-            <div/>
-          }
-        </div>
+          </div>
+          :
+          <div/>
+        }
+      </div>
     );
   }
 }
