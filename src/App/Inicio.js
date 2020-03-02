@@ -15,28 +15,30 @@ class Inicio extends Component {
 
     this.state = {
       loading: true,
-      listaIdsCancionesEscuchadas : []
+      listaIdsCancionesEscuchadas : [],
+      listaIdsCancionesAlbumsVis : []
     }
   }
 
   async componentDidMount() {
     try {
       var res = await fetch('/songs');
-      var json = await res.json();
+      var jsonCanciones = await res.json();
       this.setState((prevState) => ({
         ...prevState,
         loading: false,
-        songs: json
+        songs: jsonCanciones
       }));
 
       var objeto = null;
-      json.filter(f => {
+      jsonCanciones.filter(f => {
         if(f.id == this.props.match.params.id) {
           objeto = f;
         }
       });
       this.setState({song: objeto});
-      this.cargaListaCancionesEscuchadas(json);
+      this.cargaListaCancionesEscuchadas(jsonCanciones);
+      this.cargarListaSongsAlbumsVisitados(jsonCanciones);
     } catch(err) {
       console.error("Error accediendo al servidor", err);
     }
@@ -57,6 +59,33 @@ class Inicio extends Component {
     }
   }
 
+  cargarListaSongsAlbumsVisitados(jsonCanciones) {
+    if ((store.getState().albumsVisitados.albumsVisitados != null) && (store.getState().albumsVisitados.albumsVisitados.length > 0)) {
+      var idsLisAlbums = store.getState().albumsVisitados.albumsVisitados;
+      var idsLisCanciones = store.getState().cancionesEscuchadas.cancionesEscuchadas;
+      var songs = [];
+
+      jsonCanciones.filter(f => {
+        idsLisAlbums.filter(e => {
+          if(f.album_id == e){
+            var rep = false;
+            idsLisCanciones.filter(s => {
+              if(f.id == s) {
+                rep = true;
+              }
+            })
+
+            if (!rep) {
+              songs.push(f);
+            }
+          }
+        })
+      });
+
+      this.setState({listaIdsCancionesAlbumsVis: songs});
+    }
+  }
+
   render() {
     return (
 
@@ -70,6 +99,19 @@ class Inicio extends Component {
                   { this.state.loading ?
                   <p>Cargando...</p>
                   : <Lista objects={this.state.listaIdsCancionesEscuchadas}
+                  tipoLista={false}/>
+                  }
+              </p>
+            </div>
+          : <div/> }
+
+          {this.state.listaIdsCancionesAlbumsVis.length > 0 ? 
+            <div>
+              <p> Canciones Albums Visitados No Escuchadas </p>
+              <p>
+                  { this.state.loading ?
+                  <p>Cargando...</p>
+                  : <Lista objects={this.state.listaIdsCancionesAlbumsVis}
                   tipoLista={false}/>
                   }
               </p>

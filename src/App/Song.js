@@ -184,7 +184,7 @@ class Song extends Component {
     var res = await fetch('/albums');
     var json = await res.json();
     json.filter(f => {
-        if(f.id == this.props.match.params.album_id) {
+        if(f.id == this.state.song.album_id) {
           this.setState({album:f});
         }
     });
@@ -196,7 +196,7 @@ class Song extends Component {
         {this.state.song != undefined && this.state.album != undefined && this.state.songs != undefined ?
           <div>
             <p> 
-              <Link to={`/album/${this.props.match.params.album_id}`}>{this.state.album.name}</Link> &nbsp; 
+              <Link to={`/album/${this.state.song.album_id}`}>{this.state.album.name}</Link> &nbsp; 
               {this.state.song.name}
             </p>
 
