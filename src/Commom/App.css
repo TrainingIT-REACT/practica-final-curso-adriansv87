@@ -32,3 +32,7 @@
   font-style: italic;
   font-weight: bold;
 }
+
+.BotonSinBorde{
+  border:0;
+}

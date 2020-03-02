@@ -7,9 +7,9 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap'; 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop, faSignOutAlt, faInfo, faRedo, faHeadphones } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop, faSignOutAlt);
+library.add(faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop, faSignOutAlt, faInfo, faRedo, faHeadphones);
 
 ReactDOM.render(
   <main>
