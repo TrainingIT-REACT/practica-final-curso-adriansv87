@@ -16,7 +16,8 @@ class Inicio extends Component {
     this.state = {
       loading: true,
       listaIdsCancionesEscuchadas : [],
-      listaIdsCancionesAlbumsVis : []
+      listaIdsCancionesAlbumsVis : [],
+      listaIdsCancionesRandom : [],
     }
   }
 
@@ -39,16 +40,17 @@ class Inicio extends Component {
       this.setState({song: objeto});
       this.cargaListaCancionesEscuchadas(jsonCanciones);
       this.cargarListaSongsAlbumsVisitados(jsonCanciones);
+      this.cargarListaSongsRandom(jsonCanciones);
     } catch(err) {
       console.error("Error accediendo al servidor", err);
     }
   }
 
-  cargaListaCancionesEscuchadas(json) {
+  cargaListaCancionesEscuchadas(jsonCanciones) {
     if ((store.getState().cancionesEscuchadas.cancionesEscuchadas != null) && (store.getState().cancionesEscuchadas.cancionesEscuchadas.length > 0)) {
       var idsLisCanciones = store.getState().cancionesEscuchadas.cancionesEscuchadas;
       var songs = [];
-      json.filter(f => {
+      jsonCanciones.filter(f => {
         idsLisCanciones.filter(e => {
           if(f.id == e){
             songs.push(f);
@@ -86,6 +88,40 @@ class Inicio extends Component {
     }
   }
 
+  cargarListaSongsRandom(jsonCanciones) {
+    if ((store.getState().albumsVisitados.albumsVisitados.length == 0) && (store.getState().cancionesEscuchadas.cancionesEscuchadas.length == 0)) {
+      const min = 1;
+      const max = 50;
+      const numElem = 5;
+      var idsLisSongsRandom = [];
+      for (var i = 0; i < numElem; i++) {
+        var numAl = Math.floor(Math.random()*(max - min + 1) + min);
+
+        var anadirIdSong = true;
+        idsLisSongsRandom.filter(f => {
+          if(f == numAl) {
+            i--;
+            anadirIdSong = false;
+          }
+        });
+
+        if (anadirIdSong) {
+          idsLisSongsRandom.push(numAl);
+        }
+      }
+
+      var songs = [];
+      jsonCanciones.filter(f => {
+        idsLisSongsRandom.filter(e => {
+          if(f.id == e){
+            songs.push(f);
+          }
+        })
+      });
+      this.setState({listaIdsCancionesRandom:songs});
+    }
+  }
+
   render() {
     return (
 
@@ -112,6 +148,19 @@ class Inicio extends Component {
                   { this.state.loading ?
                   <p>Cargando...</p>
                   : <Lista objects={this.state.listaIdsCancionesAlbumsVis}
+                  tipoLista={false}/>
+                  }
+              </p>
+            </div>
+          : <div/> }
+
+          {this.state.listaIdsCancionesEscuchadas.length == 0 && this.state.listaIdsCancionesAlbumsVis.length == 0 ? 
+            <div>
+              <p> Sugerencia de este momento </p>
+              <p>
+                  { this.state.loading ?
+                  <p>Cargando...</p>
+                  : <Lista objects={this.state.listaIdsCancionesRandom}
                   tipoLista={false}/>
                   }
               </p>
