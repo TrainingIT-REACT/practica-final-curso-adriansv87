@@ -66,7 +66,7 @@ class Header extends Component {
       <div>
         {this.state.pathname ? <Redirect exact to={this.state.pathname}/> : <div> </div>}
         <nav className="navbar navbar-expand-lg navbar-light text-white bg-dark">
-          <a className="navbar-brand text-white" href="#">Reactify</a>
+          <a className="navbar-brand text-white" href="/">Reactify</a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
