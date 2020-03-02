@@ -2,7 +2,8 @@
 const actions = [
     "INGRESAR",
     "SALIR",
-    "VISITAR_ALBUM"
+    "VISITAR_ALBUM",
+    "ESCUCHAR_CANCION"
   ];
 
 // Las convertimos en un objeto

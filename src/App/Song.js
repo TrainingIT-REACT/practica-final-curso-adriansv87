@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Lista from '../Commom/Lista';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import store from '../store'; // Store
+import * as escucharCancion from '../actions/actionEscucharCancion';
 
 // Css
 import './App.css';
@@ -114,6 +116,33 @@ class Song extends Component {
     }
   }
 
+  almacenarCancionEscuchada(){
+
+    var listaIdsCancionesEscuchadas = [];
+    if ((store.getState().cancionesEscuchadas.cancionesEscuchadas != null) && (store.getState().cancionesEscuchadas.cancionesEscuchadas.length > 0)) {
+      var anadir = true;
+      listaIdsCancionesEscuchadas = store.getState().cancionesEscuchadas.cancionesEscuchadas;
+      listaIdsCancionesEscuchadas.filter(f => {
+        if(f === this.props.match.params.id) {
+          anadir = false;
+        }
+      });
+
+      if (anadir == true) {
+        listaIdsCancionesEscuchadas.push(this.props.match.params.id);
+        store.dispatch(escucharCancion.listaCancionesEscuchadas(listaIdsCancionesEscuchadas));
+      }
+      
+//    window.alert("Store Canciones: " + store.getState().cancionesEscuchadas.cancionesEscuchadas + " - " + this.props.match.params.id);
+      console.log(`Se han modificado los datos en el store`);
+      console.log(`Store Canciones:` + store.getState().cancionesEscuchadas.cancionesEscuchadas);
+    } else {
+      listaIdsCancionesEscuchadas.push(this.props.match.params.id);
+      store.dispatch(escucharCancion.listaCancionesEscuchadas(listaIdsCancionesEscuchadas));
+      console.log(store.getState());
+    }
+  }
+
   render() {
     return (
       <div>
@@ -126,7 +155,7 @@ class Song extends Component {
             </div>
 
             <button type="button">
-              <FontAwesomeIcon icon="play" />
+              <FontAwesomeIcon icon="play" onClick={() => this.almacenarCancionEscuchada()}/>
             </button>
 
             <button type="button">

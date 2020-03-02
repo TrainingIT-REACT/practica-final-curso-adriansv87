@@ -71,7 +71,6 @@ class Album extends Component {
       listaIdsAlbumsVisitados.filter(f => {
         if(f === this.props.match.params.id) {
           anadir = false;
-          
         }
       });
 
@@ -80,7 +79,7 @@ class Album extends Component {
         store.dispatch(visitarAlbum.listaAlbumsVisitados(listaIdsAlbumsVisitados));
       }
       
-      window.alert("Store Album: " + store.getState().albumsVisitados.albumsVisitados + " - " + this.props.match.params.id);
+//    window.alert("Store Album: " + store.getState().albumsVisitados.albumsVisitados + " - " + this.props.match.params.id);
       console.log(`Se han modificado los datos en el store`);
       console.log(`Store Album:` + store.getState().albumsVisitados.albumsVisitados);
     } else {
