@@ -6,6 +6,7 @@ import Albums from './Albums';
 import Album from './Album';
 import Song from './Song';
 import InicioSesion from './InicioSesion';
+import User from './User';
 
 export const Body = () => (
     <div className="container">
@@ -18,6 +19,7 @@ export const Body = () => (
             <Route exact path="/song/:id" component={Song}/>
 
             <Route path="/inicioSesion" component={InicioSesion}/>
+            <Route path="/user" component={User}/>
             <Route path="/search" component={Search}/>
             <Route path="/albums" component={Albums}/>
             <Route path="/" component={Inicio}/>

@@ -87,7 +87,7 @@ class Header extends Component {
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
                 {this.state.username ? 
-                <NavLink exact className="nav-link text-white" to="/inicioSesion"> {this.state.username} </NavLink> : 
+                <NavLink exact className="nav-link text-white" to="/user"> {this.state.username} </NavLink> : 
                 <NavLink exact className="nav-link text-white" to="/inicioSesion">Inicio de Sesión</NavLink> }
               </li>
               <li className="nav-item">
