@@ -16,6 +16,7 @@ class Album extends Component {
         album: null,
         albums: [],
         songs: [],
+        tiempoTotal : '',
         filtro: ""
     }
   }
@@ -50,12 +51,15 @@ class Album extends Component {
       }));
 
       var array = [];
+      var acumulaTiempo = 0;
       json.filter(f => {
         if(f.album_id == this.props.match.params.id) {
           array.push(f);
+          acumulaTiempo += f.seconds;
         }
       });
       this.setState({songs: array});
+      this.setState({tiempoTotal: acumulaTiempo});
       this.almacenarAlbumVisitado();
     } catch(err) {
       console.error("Error accediendo al servidor", err);
@@ -89,6 +93,20 @@ class Album extends Component {
     }
   }
 
+  transformarSegundos(time){
+    var hours = Math.floor( time / 3600 );  
+    var minutes = Math.floor( (time % 3600) / 60 );
+    var seconds = time % 60;
+
+    //Anteponiendo un 0 a los minutos si son menos de 10 
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+
+    //Anteponiendo un 0 a los segundos si son menos de 10 
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    return minutes + ":" + seconds;  // 2:41:30
+  }
+
   render() {
     return (
         <div>
@@ -118,6 +136,7 @@ class Album extends Component {
                 tipoLista={false}/>
                 }
             </p>
+            <p> Duración Total Album: {this.transformarSegundos(this.state.tiempoTotal)} seg. </p>
             </div>
             :
             <div/>
