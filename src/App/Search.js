@@ -121,7 +121,7 @@ class Search extends Component {
           Álbums 
         </h5>
           { !this.state.loading && this.state.albums.length > 0 ?
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense maxDuration={150} fallback={<div>Loading...</div>}>
               <Lista objects={this.state.albums}tipoLista={true}/>
             </Suspense> 
           :
@@ -138,7 +138,7 @@ class Search extends Component {
           Canciones 
         </h5>
           { !this.state.loading && this.state.songs.length > 0 ?
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense maxDuration={150} fallback={<div>Loading...</div>}>
               <Lista objects={this.state.songs} tempoTotal={transformarSegundos(this.state.tiempoTotal)}tipoLista={false}/>
             </Suspense> 
           :

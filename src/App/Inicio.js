@@ -148,7 +148,7 @@ class Inicio extends Component {
               </h5>
                 { this.state.loading ?
                   null :
-                  <Suspense fallback={<div>Loading...</div>}>
+                  <Suspense maxDuration={150} fallback={<div>Loading...</div>}>
                     <Lista objects={this.state.listaIdsCancionesEscuchadas} tempoTotal={transformarSegundos(this.state.tiempoTotalSongEsc)} tipoLista={false}/>
                   </Suspense>
                 }
@@ -165,7 +165,7 @@ class Inicio extends Component {
               </h5>
                 { this.state.loading ?
                   null :
-                  <Suspense fallback={<div>Loading...</div>}>
+                  <Suspense maxDuration={150} fallback={<div>Loading...</div>}>
                     <Lista objects={this.state.listaIdsCancionesAlbumsVis} tempoTotal={transformarSegundos(this.state.tiempoTotalAlbumVis)} tipoLista={false}/>
                   </Suspense>
                 }
@@ -182,7 +182,7 @@ class Inicio extends Component {
               </h5>
                 { this.state.loading ?
                   null :
-                  <Suspense fallback={<div>Loading...</div>}>
+                  <Suspense maxDuration={150} fallback={<div>Loading...</div>}>
                     <Lista objects={this.state.listaIdsCancionesRandom} tempoTotal={transformarSegundos(this.state.tiempoTotal)} tipoLista={false}/>
                   </Suspense>
                 }
