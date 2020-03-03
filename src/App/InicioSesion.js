@@ -42,7 +42,8 @@ class InicioSesion extends Component {
 
   render() {
     return (
-        <div>
+      
+			<div class="col-md-6 col-md-offset-3">
           <form id="login-form" action="" method="post" role="form">
             <div className="form-group">
               <input type="text" className="form-control" placeholder="Usuario" onChange={e => this.setState({username:e.target.value})}/>
@@ -53,12 +54,12 @@ class InicioSesion extends Component {
             <div className="form-group">
               <div className="row">
                 <div className="col-sm-6 col-sm-offset-3">
-                  <button type="submit" onClick={(e) => this.validarLogin(e)}> Inicio Sesión </button>
+                  <button type="submit" className="form-control btn btn-primary" onClick={(e) => this.validarLogin(e)}> Inicio Sesión </button>
                 </div>
               </div>
             </div>
           </form>
-        </div>
+				</div>
     );
   }
 }
