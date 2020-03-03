@@ -28,7 +28,7 @@ class Lista extends Component {
           <table className="table">
             <thead className="thead-dark">
                 <tr>
-                  {this.props.tipoLista ? <th scope="col"></th> : ''}
+                  {this.props.tipoLista ? <th scope="col"></th> : null}
                   <th scope="col">Nombre</th>
                   {this.props.tipoLista ? <th scope="col">Artista</th> : <th scope="col">Duración</th>}
                 </tr>
@@ -36,7 +36,7 @@ class Lista extends Component {
             <tbody>
                 {this.props.objects.map(objeto => 
                 <tr className='StyloCursor' key={objeto.id} onClick={() => this.montarLink(objeto.id)}>
-                    {this.props.tipoLista ? <td> <img src={objeto.cover} alt="cover" height="42" width="42"/></td> : ''}
+                    {this.props.tipoLista ? <td> <img src={objeto.cover} alt="cover" height="42" width="42"/></td> : null}
                     <td>{objeto.name}</td>
                     {this.props.tipoLista ? <td>{objeto.artist}</td> : <td>{transformarSegundos(objeto.seconds)}</td>}
                 </tr>)}

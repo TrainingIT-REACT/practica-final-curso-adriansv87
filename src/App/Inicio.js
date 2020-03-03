@@ -145,14 +145,12 @@ class Inicio extends Component {
                 </button>
                 Canciones Escuchadas 
               </h5>
-              <p>
-                  { this.state.loading ?
-                    null :
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <Lista objects={this.state.listaIdsCancionesEscuchadas} tempoTotal={transformarSegundos(this.state.tiempoTotalSongEsc)} tipoLista={false}/>
-                    </Suspense>
-                  }
-              </p>
+                { this.state.loading ?
+                  null :
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <Lista objects={this.state.listaIdsCancionesEscuchadas} tempoTotal={transformarSegundos(this.state.tiempoTotalSongEsc)} tipoLista={false}/>
+                  </Suspense>
+                }
             </div>
           : <div/> }
 
@@ -164,14 +162,12 @@ class Inicio extends Component {
                 </button>
                 Canciones no escuchadas de Albums Visitados 
               </h5>
-              <p>
-                  { this.state.loading ?
-                    null :
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <Lista objects={this.state.listaIdsCancionesAlbumsVis} tempoTotal={transformarSegundos(this.state.tiempoTotalAlbumVis)} tipoLista={false}/>
-                    </Suspense>
-                  }
-              </p>
+                { this.state.loading ?
+                  null :
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <Lista objects={this.state.listaIdsCancionesAlbumsVis} tempoTotal={transformarSegundos(this.state.tiempoTotalAlbumVis)} tipoLista={false}/>
+                  </Suspense>
+                }
             </div>
           : <div/> }
 
@@ -183,14 +179,12 @@ class Inicio extends Component {
                 </button>
                 Sugerencias para este momento 
               </h5>
-              <p>
-                  { this.state.loading ?
-                   null :
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <Lista objects={this.state.listaIdsCancionesRandom} tempoTotal={transformarSegundos(this.state.tiempoTotal)} tipoLista={false}/>
-                    </Suspense>
-                  }
-              </p>
+                { this.state.loading ?
+                  null :
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <Lista objects={this.state.listaIdsCancionesRandom} tempoTotal={transformarSegundos(this.state.tiempoTotal)} tipoLista={false}/>
+                  </Suspense>
+                }
             </div>
           : <div/> }
       </div>

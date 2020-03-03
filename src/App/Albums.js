@@ -40,13 +40,11 @@ class Albums extends Component {
           </button> 
           Álbums 
         </h5>
-        <p>
-            { this.state.loading ?
-            <p>Cargando...</p>
-            : <Lista objects={this.state.albums}
-            tipoLista={true}/>
-            }
-        </p>
+          { this.state.loading ?
+          <p>Cargando...</p>
+          : <Lista objects={this.state.albums}
+          tipoLista={true}/>
+          }
       </div>
     );
   }
