@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Lista from '../Commom/Lista';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Css
 import './App.css';
@@ -12,7 +13,8 @@ class Search extends Component {
       loading: true,
       albums: [],
       songs: [],
-      filtro: ""
+      filtro: "",
+      tiempoTotal : ''
     }
   }
 
@@ -45,12 +47,14 @@ class Search extends Component {
       }));
 
       var array = [];
+      var acumulaTiempo = 0;
       json.filter(f => {
           if(f.name.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1) {
             array.push(f);
+            acumulaTiempo += f.seconds;
           }
       });
-      this.setState({songs: array, filtro : this.props.match.params.filtro});
+      this.setState({songs: array, filtro : this.props.match.params.filtro, tiempoTotal: acumulaTiempo});
     } catch(err) {
       console.error("Error accediendo al servidor", err);
     }
@@ -86,24 +90,50 @@ class Search extends Component {
           }));
 
           var array = [];
+          var acumulaTiempo = 0;
           json.filter(f => {
               if(f.name.toUpperCase().indexOf(this.props.match.params.filtro.toUpperCase()) !== -1) {
                   array.push(f);
+                  acumulaTiempo += f.seconds;
               }
           });
-          this.setState({songs: array, filtro : this.props.match.params.filtro});
+          this.setState({songs: array, filtro : this.props.match.params.filtro, tiempoTotal: acumulaTiempo});
         } catch(err) {
           console.error("Error accediendo al servidor", err);
         }
     }
   }
 
+  transformarSegundos(time){
+    var hours = Math.floor( time / 3600 );  
+    var minutes = Math.floor( (time % 3600) / 60 );
+    var seconds = time % 60;
+
+    //Anteponiendo un 0 a los minutos si son menos de 10 
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+
+    //Anteponiendo un 0 a los segundos si son menos de 10 
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    return minutes + ":" + seconds;  // 2:41:30
+  }
+
   render() {
     return (
       <div>
-        <p> {this.props.match.params.filtro} </p>
+        <p> 
+          <button type="button" className='BotonSinBorde'>
+            <FontAwesomeIcon icon="search" />
+          </button>
+          {this.props.match.params.filtro} 
+        </p>
 
-        <p> Albums </p>
+        <h5>
+          <button type="button" className='BotonSinBorde'>
+              <FontAwesomeIcon icon="compact-disc"/>
+          </button> 
+          Álbums 
+        </h5>
         <p>
             { this.state.loading ?
             <p>Cargando...</p>
@@ -112,11 +142,16 @@ class Search extends Component {
             }
         </p>
 
-        <p> Canciones </p>
+        <h5> 
+          <button type="button" className='BotonSinBorde'>
+            <FontAwesomeIcon icon="music" />
+          </button>
+          Canciones 
+        </h5>
         <p>
             { this.state.loading ?
             <p>Cargando...</p>
-            : <Lista objects={this.state.songs}
+            : <Lista objects={this.state.songs} tempoTotal={this.transformarSegundos(this.state.tiempoTotal)}
             tipoLista={false}/>
             }
         </p>

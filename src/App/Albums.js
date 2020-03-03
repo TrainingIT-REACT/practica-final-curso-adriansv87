@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Lista from '../Commom/Lista';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Css
 import './App.css';
@@ -33,7 +34,12 @@ class Albums extends Component {
   render() {
     return (
       <div>
-        <p> Albums </p>
+        <h5>
+          <button type="button" className='BotonSinBorde'>
+              <FontAwesomeIcon icon="compact-disc"/>
+          </button> 
+          Álbums 
+        </h5>
         <p>
             { this.state.loading ?
             <p>Cargando...</p>

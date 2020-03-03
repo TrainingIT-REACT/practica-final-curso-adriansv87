@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Lista from '../Commom/Lista';
 import {BrowserRouter as Router} from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import store from '../store'; // Store
 import * as visitarAlbum from '../actions/actionVisitarAlbum';
 
@@ -120,15 +121,21 @@ class Album extends Component {
               </div>
               <div className="col-md-3">
                 <div className="row">
-                  <strong> {this.state.album.name} </strong>
+                  <cite> {this.state.album.name} </cite>
                 </div>
                 <div className="row">
-                  <p> {this.state.album.artist} </p>
+                  <em> Artist: {this.state.album.artist} </em>
                 </div>
               </div>
             </div>
 
-            <p> Canciones </p>
+            <br/>
+            <h5> 
+              <button type="button" className='BotonSinBorde'>
+                <FontAwesomeIcon icon="music" />
+              </button>
+              Canciones 
+            </h5>
             <p>
                 { this.state.loading ?
                 <p>Cargando...</p>

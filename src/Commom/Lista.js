@@ -53,8 +53,8 @@ class Lista extends Component {
                     <td>{objeto.name}</td>
                     {this.props.tipoLista ? <td>{objeto.artist}</td> : <td>{this.transformarSegundos(objeto.seconds)}</td>}
                 </tr>)}
-                
-                  {!this.props.tipoLista ? 
+
+                  {!this.props.tipoLista && this.props.tempoTotal != '00:00' ? 
                     <tr className='DuracionAlbum'>
                       <td> Duración Total:</td>
                       <td>{this.props.tempoTotal}</td>

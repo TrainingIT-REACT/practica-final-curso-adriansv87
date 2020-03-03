@@ -16,7 +16,8 @@ class Song extends Component {
       loading: true,
       song: null,
       songs: [],
-      album: null
+      album: null,
+      tiempoTotal : ''
     }
   }
 
@@ -25,10 +26,12 @@ class Song extends Component {
       var res = await fetch('/songs');
       var json = await res.json();
       var lisCanciones = [];
+      var acumulaTiempo = 0;
       if(this.props.match.params.album_id != undefined) {
         json.filter(f => {
           if(f.album_id == this.props.match.params.album_id) {
             lisCanciones.push(f);
+            acumulaTiempo += f.seconds;
           }
         });
       } else {
@@ -47,7 +50,7 @@ class Song extends Component {
           objeto = f;
         }
       });
-      this.setState({song: objeto});
+      this.setState({song: objeto, tiempoTotal: acumulaTiempo});
       this.getNombreAlbum();
     } catch(err) {
       console.error("Error accediendo al servidor", err);
@@ -60,10 +63,12 @@ class Song extends Component {
         var res = await fetch('/songs');
         var json = await res.json();
         var lisCanciones = [];
+        var acumulaTiempo = 0;
         if(this.props.match.params.album_id != undefined) {
           json.filter(f => {
             if(f.album_id == this.props.match.params.album_id) {
               lisCanciones.push(f);
+              acumulaTiempo += f.seconds;
             }
           });
         } else {
@@ -83,7 +88,7 @@ class Song extends Component {
             objeto = f;
           }
         });
-        this.setState({song: objeto});
+        this.setState({song: objeto, tiempoTotal: acumulaTiempo});
         this.getNombreAlbum();
       } catch(err) {
         console.error("Error accediendo al servidor", err);
@@ -176,15 +181,29 @@ class Song extends Component {
     });
   }
 
+  transformarSegundos(time){
+    var hours = Math.floor( time / 3600 );  
+    var minutes = Math.floor( (time % 3600) / 60 );
+    var seconds = time % 60;
+
+    //Anteponiendo un 0 a los minutos si son menos de 10 
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+
+    //Anteponiendo un 0 a los segundos si son menos de 10 
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    return minutes + ":" + seconds;  // 2:41:30
+  }
+
   render() {
     return (
       <div>
         {this.state.song != undefined && this.state.album != undefined && this.state.songs != undefined ?
           <div>
-            <p> 
+            <em> 
               <Link to={`/album/${this.state.song.album_id}`}>{this.state.album.name}</Link> &nbsp; 
               {this.state.song.name}
-            </p>
+            </em>
 
             <div className="progress">
               <div className="progress-bar" role="progressbar"></div>
@@ -219,11 +238,16 @@ class Song extends Component {
             </button>
 
             <p/>
-            <p> Canciones </p>
+            <h5> 
+              <button type="button" className='BotonSinBorde'>
+                <FontAwesomeIcon icon="music" />
+              </button>
+              Canciones 
+            </h5>
             <p>
                 { this.state.loading ?
                 <p>Cargando...</p>
-                : <Lista objects={this.state.songs}albumId={this.props.match.params.album_id}
+                : <Lista objects={this.state.songs} albumId={this.props.match.params.album_id} tempoTotal={this.transformarSegundos(this.state.tiempoTotal)}
                 tipoLista={false}/>
                 }
             </p>
