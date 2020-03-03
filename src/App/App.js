@@ -20,7 +20,9 @@ class App extends Component {
       <Router>
         <div>
           <Header/>
-            <Body/>
+            <React.StrictMode>
+              <Body/>
+            </React.StrictMode>
           <Footer/>
         </div>
       </Router>
