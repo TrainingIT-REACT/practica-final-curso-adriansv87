@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import Lista from '../Commom/Lista';
+import React, { Component, Suspense } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {transformarSegundos} from '../Commom/Funciones';
-
-// Css
 import './App.css';
+
+const Lista = React.lazy(() => import('../Commom/Lista'));
 
 class Search extends Component {
   constructor(props) {
@@ -122,10 +121,15 @@ class Search extends Component {
           Álbums 
         </h5>
         <p>
-            { this.state.loading ?
-            <p>Cargando...</p>
-            : <Lista objects={this.state.albums}
-            tipoLista={true}/>
+            { !this.state.loading && this.state.albums.length > 0 ?
+              <Suspense fallback={<div>Loading...</div>}>
+                <Lista objects={this.state.albums}tipoLista={true}/>
+              </Suspense> 
+            :
+              this.state.loading ?
+                <p> Cargando... </p>
+              :
+                <p> No se encontraron registros </p>
             }
         </p>
 
@@ -136,10 +140,15 @@ class Search extends Component {
           Canciones 
         </h5>
         <p>
-            { this.state.loading ?
-            <p>Cargando...</p>
-            : <Lista objects={this.state.songs} tempoTotal={transformarSegundos(this.state.tiempoTotal)}
-            tipoLista={false}/>
+            { !this.state.loading && this.state.songs.length > 0 ?
+              <Suspense fallback={<div>Loading...</div>}>
+                <Lista objects={this.state.songs} tempoTotal={transformarSegundos(this.state.tiempoTotal)}tipoLista={false}/>
+              </Suspense> 
+            :
+              this.state.loading ?
+                <p> Cargando... </p>
+              :
+                <p> No se encontraron registros </p>
             }
         </p>
       </div>

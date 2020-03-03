@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Lista from '../Commom/Lista';
 import store from '../store'; // Store
 import {transformarSegundos} from '../Commom/Funciones';
-
-// Css
 import './App.css';
+
+const Lista = React.lazy(() => import('../Commom/Lista'));
 
 class Inicio extends Component {
   constructor(props) {
@@ -148,9 +147,10 @@ class Inicio extends Component {
               </h5>
               <p>
                   { this.state.loading ?
-                  <p>Cargando...</p>
-                  : <Lista objects={this.state.listaIdsCancionesEscuchadas} tempoTotal={transformarSegundos(this.state.tiempoTotalSongEsc)}
-                  tipoLista={false}/>
+                    null :
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <Lista objects={this.state.listaIdsCancionesEscuchadas} tempoTotal={transformarSegundos(this.state.tiempoTotalSongEsc)} tipoLista={false}/>
+                    </Suspense>
                   }
               </p>
             </div>
@@ -166,9 +166,10 @@ class Inicio extends Component {
               </h5>
               <p>
                   { this.state.loading ?
-                  <p>Cargando...</p>
-                  : <Lista objects={this.state.listaIdsCancionesAlbumsVis} tempoTotal={transformarSegundos(this.state.tiempoTotalAlbumVis)}
-                  tipoLista={false}/>
+                    null :
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <Lista objects={this.state.listaIdsCancionesAlbumsVis} tempoTotal={transformarSegundos(this.state.tiempoTotalAlbumVis)} tipoLista={false}/>
+                    </Suspense>
                   }
               </p>
             </div>
@@ -184,9 +185,10 @@ class Inicio extends Component {
               </h5>
               <p>
                   { this.state.loading ?
-                  <p>Cargando...</p>
-                  : <Lista objects={this.state.listaIdsCancionesRandom} tempoTotal={transformarSegundos(this.state.tiempoTotal)}
-                  tipoLista={false}/>
+                   null :
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <Lista objects={this.state.listaIdsCancionesRandom} tempoTotal={transformarSegundos(this.state.tiempoTotal)} tipoLista={false}/>
+                    </Suspense>
                   }
               </p>
             </div>
