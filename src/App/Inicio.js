@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import bootstrap from "bootstrap"; // eslint-disable-line no-unused-vars
-import Header from '../Commom/Header';
-import {BrowserRouter as Router} from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Lista from '../Commom/Lista';
 import store from '../store'; // Store
-import * as escucharCancion from '../actions/actionEscucharCancion';
+import {transformarSegundos} from '../Commom/Funciones';
 
 // Css
 import './App.css';
@@ -135,20 +132,6 @@ class Inicio extends Component {
     }
   }
 
-  transformarSegundos(time){
-    var hours = Math.floor( time / 3600 );  
-    var minutes = Math.floor( (time % 3600) / 60 );
-    var seconds = time % 60;
-
-    //Anteponiendo un 0 a los minutos si son menos de 10 
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-
-    //Anteponiendo un 0 a los segundos si son menos de 10 
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-
-    return minutes + ":" + seconds;  // 2:41:30
-  }
-
   render() {
     return (
 
@@ -166,7 +149,7 @@ class Inicio extends Component {
               <p>
                   { this.state.loading ?
                   <p>Cargando...</p>
-                  : <Lista objects={this.state.listaIdsCancionesEscuchadas} tempoTotal={this.transformarSegundos(this.state.tiempoTotalSongEsc)}
+                  : <Lista objects={this.state.listaIdsCancionesEscuchadas} tempoTotal={transformarSegundos(this.state.tiempoTotalSongEsc)}
                   tipoLista={false}/>
                   }
               </p>
@@ -184,7 +167,7 @@ class Inicio extends Component {
               <p>
                   { this.state.loading ?
                   <p>Cargando...</p>
-                  : <Lista objects={this.state.listaIdsCancionesAlbumsVis} tempoTotal={this.transformarSegundos(this.state.tiempoTotalAlbumVis)}
+                  : <Lista objects={this.state.listaIdsCancionesAlbumsVis} tempoTotal={transformarSegundos(this.state.tiempoTotalAlbumVis)}
                   tipoLista={false}/>
                   }
               </p>
@@ -202,7 +185,7 @@ class Inicio extends Component {
               <p>
                   { this.state.loading ?
                   <p>Cargando...</p>
-                  : <Lista objects={this.state.listaIdsCancionesRandom} tempoTotal={this.transformarSegundos(this.state.tiempoTotal)}
+                  : <Lista objects={this.state.listaIdsCancionesRandom} tempoTotal={transformarSegundos(this.state.tiempoTotal)}
                   tipoLista={false}/>
                   }
               </p>
