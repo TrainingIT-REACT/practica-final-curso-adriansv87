@@ -46,8 +46,7 @@ class Lista extends Component {
                       <td> Duración Total:</td>
                       <td>{this.props.tempoTotal}</td>
                     </tr> 
-                    : <div/> }
-                
+                    : null }
             </tbody>
             </table>
       </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import store from '../store'; // Store
+import store from '../store';
 import * as ingresar from '../actions/actionUser';
 
 // Css
@@ -44,12 +44,16 @@ class User extends Component {
     }
   }
 
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
   render() {
     return (
-      <div class="col-md-6 col-md-offset-3">
+      <div className="col-md-6 col-md-offset-3">
         <form id="login-form" action="" method="post" role="form">
           <div className="form-group">
-            <input type="text" className="form-control" placeholder="Usuario" value = {this.state.username} onChange={e => this.setState({username:e.target.value})}/>
+            <input type="text" className="form-control" placeholder="Usuario" value = {this.state.username} onChange = {this.handleChange}/>
           </div>
           <div className="form-group">
             <input type="password" className="form-control" placeholder="Contraseña Antigua" value = {this.state.password} onChange={e => this.setState({password:e.target.value})}/>

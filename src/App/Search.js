@@ -120,18 +120,16 @@ class Search extends Component {
           </button> 
           Álbums 
         </h5>
-        <p>
-            { !this.state.loading && this.state.albums.length > 0 ?
-              <Suspense fallback={<div>Loading...</div>}>
-                <Lista objects={this.state.albums}tipoLista={true}/>
-              </Suspense> 
+          { !this.state.loading && this.state.albums.length > 0 ?
+            <Suspense fallback={<div>Loading...</div>}>
+              <Lista objects={this.state.albums}tipoLista={true}/>
+            </Suspense> 
+          :
+            this.state.loading ?
+              <p> Cargando... </p>
             :
-              this.state.loading ?
-                <p> Cargando... </p>
-              :
-                <p> No se encontraron registros </p>
-            }
-        </p>
+              <p> No se encontraron registros </p>
+          }
 
         <h5> 
           <button type="button" className='BotonSinBorde'>
@@ -139,18 +137,16 @@ class Search extends Component {
           </button>
           Canciones 
         </h5>
-        <p>
-            { !this.state.loading && this.state.songs.length > 0 ?
-              <Suspense fallback={<div>Loading...</div>}>
-                <Lista objects={this.state.songs} tempoTotal={transformarSegundos(this.state.tiempoTotal)}tipoLista={false}/>
-              </Suspense> 
+          { !this.state.loading && this.state.songs.length > 0 ?
+            <Suspense fallback={<div>Loading...</div>}>
+              <Lista objects={this.state.songs} tempoTotal={transformarSegundos(this.state.tiempoTotal)}tipoLista={false}/>
+            </Suspense> 
+          :
+            this.state.loading ?
+              <p> Cargando... </p>
             :
-              this.state.loading ?
-                <p> Cargando... </p>
-              :
-                <p> No se encontraron registros </p>
-            }
-        </p>
+              <p> No se encontraron registros </p>
+          }
       </div>
     );
   }

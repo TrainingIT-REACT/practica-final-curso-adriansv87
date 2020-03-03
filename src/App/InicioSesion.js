@@ -43,7 +43,7 @@ class InicioSesion extends Component {
   render() {
     return (
       
-			<div class="col-md-6 col-md-offset-3">
+			<div className="col-md-6 col-md-offset-3">
           <form id="login-form" action="" method="post" role="form">
             <div className="form-group">
               <input type="text" className="form-control" placeholder="Usuario" onChange={e => this.setState({username:e.target.value})}/>

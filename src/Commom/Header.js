@@ -92,7 +92,10 @@ class Header extends Component {
               </li>
               <li className="nav-item">
                 {this.state.username ? 
-                  <button type="button" onClick={() => this.cerrarSesion()}> <FontAwesomeIcon icon="sign-out-alt" exact className="TamButton" /> </button> : ''}
+                  <button type="button" onClick={() => this.cerrarSesion()}>
+                    <FontAwesomeIcon icon="sign-out-alt" className="TamButton"/> 
+                  </button> 
+                : null}
               </li>
             </ul>
           </div>

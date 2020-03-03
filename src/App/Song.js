@@ -231,13 +231,11 @@ class Song extends Component {
               </button>
               Canciones 
             </h5>
-            <p>
-                { this.state.loading ?
-                <p>Cargando...</p>
-                : <Lista objects={this.state.songs} albumId={this.props.match.params.album_id} tempoTotal={transformarSegundos(this.state.tiempoTotal)}
-                tipoLista={false}/>
-                }
-            </p>
+              { this.state.loading ?
+              <p>Cargando...</p>
+              : <Lista objects={this.state.songs} albumId={this.props.match.params.album_id} tempoTotal={transformarSegundos(this.state.tiempoTotal)}
+              tipoLista={false}/>
+              }
           </div>
         : 
         <div/>

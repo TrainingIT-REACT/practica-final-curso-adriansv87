@@ -1,5 +1,6 @@
 import React, {Suspense} from 'react';
 import {Route, Switch, withRouter} from 'react-router-dom';
+import store from '../store';
 
 const Inicio = React.lazy(() => import('./Inicio'));
 const Search = React.lazy(() => import('./Search'));
@@ -9,7 +10,7 @@ const Song = React.lazy(() => import('./Song'));
 const User = React.lazy(() => import('./User'));
 const InicioSesion = React.lazy(() => import('./InicioSesion'));
 
-export const Body = () => (
+export var Body = (usuario) => (
     <div className="container">
         <br/>
         <Suspense fallback={<div>Loading...</div>}>
@@ -21,7 +22,10 @@ export const Body = () => (
                 <Route exact path="/song/:id" component={Song}/>
 
                 <Route path="/inicioSesion" component={InicioSesion}/>
-                <Route path="/user" component={User}/>
+                { store.getState().user.user.username != undefined ?
+                    <Route path="/user" component={User}/>
+                    : null
+                }
                 <Route path="/search" component={Search}/>
                 <Route path="/albums" component={Albums}/>
                 <Route path="/" component={Inicio}/>
