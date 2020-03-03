@@ -4,9 +4,23 @@ import Header from '../Commom/Header';
 import {BrowserRouter as Router} from 'react-router-dom';
 import store from '../store'; // Store
 import * as ingresar from '../actions/actionUser';
+import { positions, Provider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
+import Home from "./Home";
 
 // Css
 import './App.css';
+
+const options = {
+  timeout: 5000,
+  position: positions.BOTTOM_CENTER
+};
+
+const App = () => (
+  <Provider template={AlertTemplate} {...options}>
+    <Home />
+  </Provider>
+);
 
 class User extends Component {
   constructor(props) {
@@ -43,6 +57,7 @@ class User extends Component {
       this.props.history.push({pathname:'/'});
     } else {
       window.alert("La constraseña introducida no es correcta");
+      //render(<App />, document.getElementById("root"));
     }
   }
 
@@ -72,7 +87,7 @@ class User extends Component {
                 </div>
               </div>
             </div>
-          </form>
+          </form> 
         </div>
     );
   }
