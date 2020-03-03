@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import store from '../store'; // Store
-import * as actionUsuario from '../actions/actionUser';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// Css
-import './App.css';
 import { NavLink, withRouter, Redirect } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as actionUsuario from '../actions/actionUser';
+import store from '../store';
+import './App.css';
 
 class Header extends Component {
   constructor(props) {

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import {transformarSegundos} from './Funciones';
-
-// Css
 import './App.css';
 
 class Lista extends Component {

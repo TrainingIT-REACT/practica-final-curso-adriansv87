@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import store from '../store';
 import * as ingresar from '../actions/actionUser';
-
-// Css
 import './App.css';
 
 class User extends Component {

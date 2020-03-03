@@ -26,6 +26,7 @@ export var Body = (usuario) => (
                     <Route path="/user" component={User}/>
                     : null
                 }
+
                 <Route path="/search" component={Search}/>
                 <Route path="/albums" component={Albums}/>
                 <Route path="/" component={Inicio}/>

@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import bootstrap from "bootstrap"; // eslint-disable-line no-unused-vars
-import Header from '../Commom/Header';
-import {BrowserRouter as Router} from 'react-router-dom';
-import store from '../store'; // Store
+import store from '../store';
 import * as ingresar from '../actions/actionUser';
-
-// Css
 import './App.css';
 
 class InicioSesion extends Component {
@@ -42,24 +37,24 @@ class InicioSesion extends Component {
 
   render() {
     return (
-      
+
 			<div className="col-md-6 col-md-offset-3">
-          <form id="login-form" action="" method="post" role="form">
-            <div className="form-group">
-              <input type="text" className="form-control" placeholder="Usuario" onChange={e => this.setState({username:e.target.value})}/>
-            </div>
-            <div className="form-group">
-              <input type="password" className="form-control" placeholder="Contraseña" onChange={e => this.setState({password:e.target.value})}/>
-            </div>
-            <div className="form-group">
-              <div className="row">
-                <div className="col-sm-6 col-sm-offset-3">
-                  <button type="submit" className="form-control btn btn-primary" onClick={(e) => this.validarLogin(e)}> Inicio Sesión </button>
-                </div>
+        <form id="login-form" action="" method="post" role="form">
+          <div className="form-group">
+            <input type="text" className="form-control" placeholder="Usuario" onChange={e => this.setState({username:e.target.value})}/>
+          </div>
+          <div className="form-group">
+            <input type="password" className="form-control" placeholder="Contraseña" onChange={e => this.setState({password:e.target.value})}/>
+          </div>
+          <div className="form-group">
+            <div className="row">
+              <div className="col-sm-6 col-sm-offset-3">
+                <button type="submit" className="form-control btn btn-primary" onClick={(e) => this.validarLogin(e)}> Inicio Sesión </button>
               </div>
             </div>
-          </form>
-				</div>
+          </div>
+        </form>
+      </div>
     );
   }
 }

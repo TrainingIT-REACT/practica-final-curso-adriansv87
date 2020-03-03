@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import Lista from '../Commom/Lista';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import store from '../store'; // Store
+import store from '../store';
+import Lista from '../Commom/Lista';
 import * as visitarAlbum from '../actions/actionVisitarAlbum';
 import {transformarSegundos} from '../Commom/Funciones';
-
-// Css
 import './App.css';
 
 class Album extends Component {
@@ -67,7 +65,7 @@ class Album extends Component {
     }
   }
 
-  almacenarAlbumVisitado(){
+  almacenarAlbumVisitado() {
 
     var listaIdsAlbumsVisitados = [];
     if ((store.getState().albumsVisitados.albumsVisitados != null) && (store.getState().albumsVisitados.albumsVisitados.length > 0)) {

@@ -1,7 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import store from '../store'; // Store
 import {transformarSegundos} from '../Commom/Funciones';
+import store from '../store';
 import './App.css';
 
 const Lista = React.lazy(() => import('../Commom/Lista'));
@@ -37,6 +37,7 @@ class Inicio extends Component {
           objeto = f;
         }
       });
+
       this.setState({song: objeto});
       this.cargaListaCancionesEscuchadas(jsonCanciones);
       this.cargarListaSongsAlbumsVisitados(jsonCanciones);

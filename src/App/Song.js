@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import {withRouter, Link} from 'react-router-dom' ;
-import Lista from '../Commom/Lista';
+import {Link} from 'react-router-dom' ;
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import store from '../store'; // Store
+import Lista from '../Commom/Lista';
+import store from '../store';
 import * as escucharCancion from '../actions/actionEscucharCancion';
 import {transformarSegundos} from '../Commom/Funciones';
-
-// Css
 import './App.css';
 
 class Song extends Component {

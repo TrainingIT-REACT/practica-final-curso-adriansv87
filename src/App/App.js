@@ -3,8 +3,6 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import Header from '../Commom/Header';
 import Footer from '../Commom/Footer';
 import Body from './body';
-
-// Css
 import './App.css';
 
 class App extends Component {
