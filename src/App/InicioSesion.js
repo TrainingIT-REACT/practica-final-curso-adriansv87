@@ -41,10 +41,12 @@ class InicioSesion extends Component {
 			<div className="col-md-6 col-md-offset-3">
         <form id="login-form" action="" method="post" role="form">
           <div className="form-group">
-            <input type="text" className="form-control" placeholder="Usuario" onChange={e => this.setState({username:e.target.value})}/>
+            <label htmlFor="formUsuario">Usuario</label>
+            <input type="text" className="form-control" id="formUsuario" placeholder="Usuario" onChange={e => this.setState({username:e.target.value})}/>
           </div>
           <div className="form-group">
-            <input type="password" className="form-control" placeholder="Contraseña" onChange={e => this.setState({password:e.target.value})}/>
+            <label htmlFor="formPass">Contraseña</label>
+            <input type="password" className="form-control" id="formPass" placeholder="Contraseña" onChange={e => this.setState({password:e.target.value})}/>
           </div>
           <div className="form-group">
             <div className="row">
