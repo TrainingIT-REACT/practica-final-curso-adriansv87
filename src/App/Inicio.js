@@ -5,6 +5,9 @@ import store from '../store';
 import { connect } from 'react-redux';
 import './App.css';
 
+// Acciones
+import { getSongs, getSongsFilterByAlbumId } from '../actions/actionCanciones';
+
 const Lista = React.lazy(() => import('../Commom/Lista'));
 
 class Inicio extends Component {
@@ -23,29 +26,17 @@ class Inicio extends Component {
   }
 
   async componentDidMount() {
-    try {
-      var res = await fetch('/songs');
-      var jsonCanciones = await res.json();
-      this.setState((prevState) => ({
-        ...prevState,
-        loading: false,
-        songs: jsonCanciones
-      }));
+    const {reducerCanciones, reducerAlbums, ...resto} = this.props;
+    var listaCancionesEscuchadas = reducerCanciones.reducerCancionesEscuchadas.cancionesEscuchadas;
+    var listaAlbumsVisitados = reducerAlbums.reducerAlbumsVisitados.albumsVisitados;
 
-      var objeto = null;
-      jsonCanciones.filter(f => {
-        if(f.id == this.props.match.params.id) {
-          objeto = f;
-        }
-      });
-
-      this.setState({song: objeto});
-      this.cargaListaCancionesEscuchadas(jsonCanciones);
-      this.cargarListaSongsAlbumsVisitados(jsonCanciones);
-      this.cargarListaSongsRandom(jsonCanciones);
-    } catch(err) {
-      console.error("Error accediendo al servidor", err);
+    if ((listaAlbumsVisitados == undefined || listaAlbumsVisitados.length < 1) && (listaCancionesEscuchadas == undefined || listaCancionesEscuchadas.length < 1)) {
+      // cargarListaSongsRandom
     }
+/*
+    this.props.getSongs(this.props.match.params.id);
+    this.props.getSongsFilterByAlbumId(this.props.match.params.album_id);
+*/
   }
 
   cargaListaCancionesEscuchadas(jsonCanciones) {
@@ -135,12 +126,15 @@ class Inicio extends Component {
   }
 
   render() {
+    const {reducerCanciones, reducerAlbums, ...resto} = this.props;
+    var listaCancionesEscuchadas = reducerCanciones.reducerCancionesEscuchadas.cancionesEscuchadas;
+    var listaAlbumsVisitados = reducerAlbums.reducerAlbumsVisitados.albumsVisitados;
     return (
 
       <div>
         <h1>Música Recomendada</h1>
         <p/>
-          {this.state.listaIdsCancionesEscuchadas.length > 0 ? 
+          {listaCancionesEscuchadas.length > 0 ? 
             <div>
               <h5> 
                 <button type="button" className='BotonSinBorde'>
@@ -148,16 +142,16 @@ class Inicio extends Component {
                 </button>
                 Canciones Escuchadas 
               </h5>
-                { this.state.loading ?
+                { reducerCanciones.reducerCargaCanciones.isLoading ?
                   null :
                   <Suspense fallback={<div>Loading...</div>}>
-                    <Lista objects={this.state.listaIdsCancionesEscuchadas} tempoTotal={transformarSegundos(this.state.tiempoTotalSongEsc)} tipoLista={false}/>
+                    <Lista objects={listaCancionesEscuchadas} tempoTotal={transformarSegundos(listaCancionesEscuchadas)} tipoLista={false}/>
                   </Suspense>
                 }
             </div>
           : <div/> }
 
-          {this.state.listaIdsCancionesAlbumsVis.length > 0 ? 
+          {listaAlbumsVisitados.length > 0 ? 
             <div>
               <h5> 
                 <button type="button" className='BotonSinBorde'>
@@ -202,4 +196,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
 })
 
-export default Inicio;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Inicio);

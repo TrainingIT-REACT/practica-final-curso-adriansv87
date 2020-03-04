@@ -94,23 +94,24 @@ class Song extends Component {
   almacenarCancionEscuchada(){
     const {reducerCanciones} = this.props;
     var listaCanciones = reducerCanciones.reducerCancionesEscuchadas.cancionesEscuchadas;
+    const cancion = reducerCanciones.reducerCargaCancion.cancion;
 
     var listaIdsCancionesEscuchadas = [];
     if ((listaCanciones != null) && (listaCanciones.length > 0)) {
       var anadir = true;
       listaIdsCancionesEscuchadas = listaCanciones;
       listaIdsCancionesEscuchadas.filter(f => {
-        if(f === this.props.match.params.id) {
+        if(f.id === cancion.id) {
           anadir = false;
         }
       });
 
       if (anadir == true) {
-        listaIdsCancionesEscuchadas.push(this.props.match.params.id);
+        listaIdsCancionesEscuchadas.push(cancion);
         this.props.addCancionEscuchada(listaIdsCancionesEscuchadas);
       }
     } else {
-      listaIdsCancionesEscuchadas.push(this.props.match.params.id);
+      listaIdsCancionesEscuchadas.push(cancion);
       this.props.addCancionEscuchada(listaIdsCancionesEscuchadas);
     }
   }
