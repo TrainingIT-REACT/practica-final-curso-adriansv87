@@ -42,11 +42,11 @@ class InicioSesion extends Component {
         <form id="login-form" action="" method="post" role="form">
           <div className="form-group">
             <label htmlFor="formUsuario">Usuario</label>
-            <input type="text" className="form-control" id="formUsuario" placeholder="Usuario" onChange={e => this.setState({username:e.target.value})}/>
+            <input type="text" className="form-control" id="formUsuario" onChange={e => this.setState({username:e.target.value})}/>
           </div>
           <div className="form-group">
             <label htmlFor="formPass">Contraseña</label>
-            <input type="password" className="form-control" id="formPass" placeholder="Contraseña" onChange={e => this.setState({password:e.target.value})}/>
+            <input type="password" className="form-control" id="formPass" onChange={e => this.setState({password:e.target.value})}/>
           </div>
           <div className="form-group">
             <div className="row">

@@ -52,24 +52,24 @@ class User extends Component {
         <form id="login-form" action="" method="post" role="form">
           <div className="form-group">
             <label htmlFor="formUsuario">Usuario</label>
-            <input type="text" className="form-control" id="formUsuario" placeholder="Usuario" value = {this.state.username} onChange = {this.handleChange}/>
+            <input type="text" className="form-control" id="formUsuario" value = {this.state.username} onChange = {this.handleChange}/>
           </div>
           <div className="form-group">
             <label htmlFor="formPassAnt">Contraseña Antigua</label>
-            <input type="password" className="form-control" id="formPassAnt" placeholder="Contraseña Antigua" value = {this.state.password} onChange={e => this.setState({password:e.target.value})}/>
+            <input type="password" className="form-control" id="formPassAnt" value = {this.state.password} onChange={e => this.setState({password:e.target.value})}/>
             {this.state.alertaError ? <p className="text-danger">La constraseña introducida no es correcta</p> : <div/>}
           </div>
           <div className="form-group">
             <label htmlFor="formPassNew">Nueva Contraseña</label>
-            <input type="password" className="form-control" id="formPassNew" placeholder="Nueva Contraseña" value = {this.state.passwordNew} onChange={e => this.setState({passwordNew:e.target.value})}/>
+            <input type="password" className="form-control" id="formPassNew" value = {this.state.passwordNew} onChange={e => this.setState({passwordNew:e.target.value})}/>
           </div>
           <div className="form-group">
             <label htmlFor="formNombre">Nombre</label>
-            <input type="text" className="form-control" id="formNombre" placeholder="Nombre" value = {this.state.nombre} onChange={e => this.setState({nombre:e.target.value})}/>
+            <input type="text" className="form-control" id="formNombre" value = {this.state.nombre} onChange={e => this.setState({nombre:e.target.value})}/>
           </div>
           <div className="form-group">
             <label htmlFor="formApels">Apellidos</label>
-            <input type="text" className="form-control" id="formApels" placeholder="Apellidos" value = {this.state.apellidos} onChange={e => this.setState({apellidos:e.target.value})}/>
+            <input type="text" className="form-control" id="formApels" value = {this.state.apellidos} onChange={e => this.setState({apellidos:e.target.value})}/>
           </div>
           <div className="form-group">
             <div className="row">
