@@ -1,64 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import store from '../store';
-import Lista from '../Commom/Lista';
-import * as visitarAlbum from '../actions/actionVisitarAlbum';
 import {transformarSegundos} from '../Commom/Funciones';
+import Lista from '../Commom/Lista';
 import './App.css';
+
+// Acciones
+import { getSongsFilterByAlbumId } from '../actions/actionCanciones';
+import { getAlbum, addAlbumVisitado } from '../actions/actionAlbums';
 
 class Album extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-        loading: true,
-        album: null,
-        albums: [],
-        songs: [],
-        tiempoTotal : '',
         filtro: ""
     }
   }
 
   async componentDidMount() {
     try {
-      // albums
-      var res = await fetch('/albums');
-      var json = await res.json();
-      this.setState((prevState) => ({
-        ...prevState,
-        loading: false,
-        albums: json
-      }));
-
-      var objeto = null;
-      json.filter(f => {
-        if(f.id == this.props.match.params.id) {
-          objeto = f;
-        }
-      });
-      this.setState({album: objeto});
-
-      // songs
-      res = await fetch('/songs');
-      json = await res.json();
-      var array = [];
-      this.setState((prevState) => ({
-        ...prevState,
-        loading: false,
-        songs: json
-      }));
-
-      var array = [];
-      var acumulaTiempo = 0;
-      json.filter(f => {
-        if(f.album_id == this.props.match.params.id) {
-          array.push(f);
-          acumulaTiempo += f.seconds;
-        }
-      });
-      this.setState({songs: array});
-      this.setState({tiempoTotal: acumulaTiempo});
+      this.props.getAlbum(this.props.match.params.id);
+      this.props.getSongsFilterByAlbumId(this.props.match.params.id);
       this.almacenarAlbumVisitado();
     } catch(err) {
       console.error("Error accediendo al servidor", err);
@@ -66,11 +29,13 @@ class Album extends Component {
   }
 
   almacenarAlbumVisitado() {
+    const {reducerAlbums} = this.props;
+    var listaAlbums = reducerAlbums.reducerAlbumsVisitados.albumsVisitados;
 
     var listaIdsAlbumsVisitados = [];
-    if ((store.getState().albumsVisitados.albumsVisitados != null) && (store.getState().albumsVisitados.albumsVisitados.length > 0)) {
+    if ((listaAlbums != null) && (listaAlbums.length > 0)) {
       var anadir = true;
-      listaIdsAlbumsVisitados = store.getState().albumsVisitados.albumsVisitados;
+      listaIdsAlbumsVisitados = listaAlbums;
       listaIdsAlbumsVisitados.filter(f => {
         if(f === this.props.match.params.id) {
           anadir = false;
@@ -79,36 +44,33 @@ class Album extends Component {
 
       if (anadir == true) {
         listaIdsAlbumsVisitados.push(this.props.match.params.id);
-        store.dispatch(visitarAlbum.listaAlbumsVisitados(listaIdsAlbumsVisitados));
+        this.props.addAlbumVisitado(listaIdsAlbumsVisitados);
       }
-      
-//    window.alert("Store Album: " + store.getState().albumsVisitados.albumsVisitados + " - " + this.props.match.params.id);
-      console.log(`Se han modificado los datos en el store`);
-      console.log(`Store Album:` + store.getState().albumsVisitados.albumsVisitados);
     } else {
       listaIdsAlbumsVisitados.push(this.props.match.params.id);
-      store.dispatch(visitarAlbum.listaAlbumsVisitados(listaIdsAlbumsVisitados));
-      console.log(store.getState());
+      this.props.addAlbumVisitado(listaIdsAlbumsVisitados);
     }
   }
 
   render() {
+    const {reducerAlbums, reducerCanciones, ...resto} = this.props;
+    const album = reducerAlbums.reducerCargaAlbum.album;
     return (
       <div>
-        {this.state.album != undefined ?
+        {album != undefined ?
           <div>
             <p> {this.props.match.params.filtro} </p>
 
             <div className="row">
               <div className="col-md-2">
-                <img src={this.state.album.cover} alt="cover" height="150" width="150"/>
+                <img src={album.cover} alt="cover" height="150" width="150"/>
               </div>
               <div className="col-md-3">
                 <div className="row">
-                  <cite> {this.state.album.name} </cite>
+                  <cite> {album.name} </cite>
                 </div>
                 <div className="row">
-                  <em> Artist: {this.state.album.artist} </em>
+                  <em> Artist: {album.artist} </em>
                 </div>
               </div>
             </div>
@@ -120,9 +82,11 @@ class Album extends Component {
               </button>
               Canciones 
             </h5>
-              { this.state.loading ?
+              { reducerCanciones.reducerCargaCancion.isLoading ?
               <p>Cargando...</p>
-              : <Lista objects={this.state.songs} albumId={this.props.match.params.id} tempoTotal={transformarSegundos(this.state.tiempoTotal)}
+              : <Lista objects={reducerCanciones.reducerCargaCanciones.canciones} 
+              albumId={this.props.match.params.id} 
+              tempoTotal={transformarSegundos(reducerCanciones.reducerCargaCanciones.canciones)}
               tipoLista={false}/>
               }
           </div>
@@ -134,4 +98,17 @@ class Album extends Component {
   }
 }
 
-export default Album;
+const mapStateToProps = (state) => ({
+  ...state
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getSongsFilterByAlbumId: (id) => dispatch(getSongsFilterByAlbumId(id)),
+  getAlbum: (id) => dispatch(getAlbum(id)),
+  addAlbumVisitado: (lista) => dispatch(addAlbumVisitado(lista))
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Album);

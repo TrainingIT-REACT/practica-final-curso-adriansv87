@@ -4,17 +4,19 @@ import { createStore } from "redux";
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import store from './store';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap'; 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop, faSignOutAlt, faInfo, faRedo, faHeadphones, faCompactDisc, faMusic, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { Provider } from 'react-redux';
 
 library.add(faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop, faSignOutAlt, faInfo, faRedo, faHeadphones, faCompactDisc, faMusic, faSearch);
 
 ReactDOM.render(
-  <main>
+  <Provider store={store}>
     <App />
-  </main>,
+  </Provider>,
 document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

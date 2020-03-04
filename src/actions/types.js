@@ -3,7 +3,16 @@ const actions = [
     "INGRESAR",
     "SALIR",
     "VISITAR_ALBUM",
-    "ESCUCHAR_CANCION"
+    "ESCUCHAR_CANCION",
+    "CARGANDO_CANCIONES",
+    "CANCIONES_CARGADAS",
+    "ERROR_CARGA_CANCIONES",
+    "CARGANDO_CANCION",
+    "CANCION_CARGADA",
+    "ERROR_CARGA_CANCION",
+    "CARGANDO_ALBUM",
+    "ALBUM_CARGADO",
+    "ERROR_CARGA_ALBUM"
   ];
 
 // Las convertimos en un objeto

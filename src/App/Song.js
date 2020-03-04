@@ -1,102 +1,49 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {Link} from 'react-router-dom' ;
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Lista from '../Commom/Lista';
-import store from '../store';
-import * as escucharCancion from '../actions/actionEscucharCancion';
 import {transformarSegundos} from '../Commom/Funciones';
 import './App.css';
+
+// Acciones
+import { getSongs, getSong, getSongsFilterByAlbumId, addCancionEscuchada } from '../actions/actionCanciones';
+import { getAlbum } from '../actions/actionAlbums';
 
 class Song extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      loading: true,
-      song: null,
-      songs: [],
-      album: null,
-      tiempoTotal : ''
-    }
+    this.state = {}
   }
 
   async componentDidMount() {
-    try {
-      var res = await fetch('/songs');
-      var json = await res.json();
-      var lisCanciones = [];
-      var acumulaTiempo = 0;
-      if(this.props.match.params.album_id != undefined) {
-        json.filter(f => {
-          if(f.album_id == this.props.match.params.album_id) {
-            lisCanciones.push(f);
-            acumulaTiempo += f.seconds;
-          }
-        });
-      } else {
-        lisCanciones = json;
-      }
-
-      this.setState((prevState) => ({
-        ...prevState,
-        loading: false,
-        songs: lisCanciones
-      }));
-
-      var objeto = null;
-      json.filter(f => {
-        if(f.id == this.props.match.params.id) {
-          objeto = f;
-        }
-      });
-      this.setState({song: objeto, tiempoTotal: acumulaTiempo});
-      this.getNombreAlbum();
-    } catch(err) {
-      console.error("Error accediendo al servidor", err);
+    if (this.props.match.params.album_id) {
+      this.props.getSongsFilterByAlbumId(this.props.match.params.album_id);
+    } else {
+      this.props.getSongs();
     }
+
+    this.props.getSong(this.props.match.params.id);
+    this.props.getAlbum(this.props.match.params.album_id);
   }
 
   async componentDidUpdate(prevProps, prevState) {
     if(prevProps.match.params.id !== this.props.match.params.id) {
-      try {
-        var res = await fetch('/songs');
-        var json = await res.json();
-        var lisCanciones = [];
-        var acumulaTiempo = 0;
-        if(this.props.match.params.album_id != undefined) {
-          json.filter(f => {
-            if(f.album_id == this.props.match.params.album_id) {
-              lisCanciones.push(f);
-              acumulaTiempo += f.seconds;
-            }
-          });
-        } else {
-          lisCanciones = json;
-        }
-
-        this.setState((prevState) => ({
-          ...prevState,
-          loading: false,
-          songs: json,
-          songs: lisCanciones
-        }));
-
-        var objeto = null;
-        json.filter(f => {
-          if(f.id == this.props.match.params.id) {
-            objeto = f;
-          }
-        });
-        this.setState({song: objeto, tiempoTotal: acumulaTiempo});
-        this.getNombreAlbum();
-      } catch(err) {
-        console.error("Error accediendo al servidor", err);
+      if (this.props.match.params.album_id) {
+        this.props.getSongsFilterByAlbumId(this.props.match.params.album_id);
+      } else {
+        this.props.getSongs();
       }
+
+      this.props.getSong(this.props.match.params.id);
+      this.props.getAlbum(this.props.match.params.album_id);
     }
   }
 
   anteriorCancion(){
-    var listaCanciones = this.state.songs;
+    const {reducerCanciones} = this.props;
+    var listaCanciones = reducerCanciones.reducerCargaCanciones.canciones;
 
     var posicionActualEnLista = null;
     for (var i = (listaCanciones.length - 1); i >= 0 ; i--) {
@@ -112,15 +59,16 @@ class Song extends Component {
       }
 
       if (this.props.match.params.album_id) {
-        this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista - 1].id}/${this.props.match.params.album_id}`});
+        this.props.history.push({pathname:`/song/${listaCanciones[posicionActualEnLista - 1].id}/${this.props.match.params.album_id}`});
       } else {
-        this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista - 1].id}`});
+        this.props.history.push({pathname:`/song/${listaCanciones[posicionActualEnLista - 1].id}`});
       }
     }
   }
 
   posteriorCancion(){
-    var listaCanciones = this.state.songs;
+    const {reducerCanciones} = this.props;
+    var listaCanciones = reducerCanciones.reducerCargaCanciones.canciones;
 
     var posicionActualEnLista = null;
     for (var i = 0; i <= (listaCanciones.length - 1) ; i++) {
@@ -136,19 +84,21 @@ class Song extends Component {
       }
 
       if (this.props.match.params.album_id) {
-        this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista + 1].id}/${this.props.match.params.album_id}`});
+        this.props.history.push({pathname:`/song/${listaCanciones[posicionActualEnLista + 1].id}/${this.props.match.params.album_id}`});
       } else {
-        this.props.history.push({pathname:`/song/${this.state.songs[posicionActualEnLista + 1].id}`});
+        this.props.history.push({pathname:`/song/${listaCanciones[posicionActualEnLista + 1].id}`});
       }
     }
   }
 
   almacenarCancionEscuchada(){
+    const {reducerCanciones} = this.props;
+    var listaCanciones = reducerCanciones.reducerCancionesEscuchadas.cancionesEscuchadas;
 
     var listaIdsCancionesEscuchadas = [];
-    if ((store.getState().cancionesEscuchadas.cancionesEscuchadas != null) && (store.getState().cancionesEscuchadas.cancionesEscuchadas.length > 0)) {
+    if ((listaCanciones != null) && (listaCanciones.length > 0)) {
       var anadir = true;
-      listaIdsCancionesEscuchadas = store.getState().cancionesEscuchadas.cancionesEscuchadas;
+      listaIdsCancionesEscuchadas = listaCanciones;
       listaIdsCancionesEscuchadas.filter(f => {
         if(f === this.props.match.params.id) {
           anadir = false;
@@ -157,37 +107,25 @@ class Song extends Component {
 
       if (anadir == true) {
         listaIdsCancionesEscuchadas.push(this.props.match.params.id);
-        store.dispatch(escucharCancion.listaCancionesEscuchadas(listaIdsCancionesEscuchadas));
+        this.props.addCancionEscuchada(listaIdsCancionesEscuchadas);
       }
-
-//    window.alert("Store Canciones: " + store.getState().cancionesEscuchadas.cancionesEscuchadas + " - " + this.props.match.params.id);
-      console.log(`Se han modificado los datos en el store`);
-      console.log(`Store Canciones:` + store.getState().cancionesEscuchadas.cancionesEscuchadas);
     } else {
       listaIdsCancionesEscuchadas.push(this.props.match.params.id);
-      store.dispatch(escucharCancion.listaCancionesEscuchadas(listaIdsCancionesEscuchadas));
-      console.log(store.getState());
+      this.props.addCancionEscuchada(listaIdsCancionesEscuchadas);
     }
   }
 
-  async getNombreAlbum() {
-    var res = await fetch('/albums');
-    var json = await res.json();
-    json.filter(f => {
-        if(f.id == this.state.song.album_id) {
-          this.setState({album:f});
-        }
-    });
-  }
-
   render() {
+    const {reducerCanciones, reducerAlbums, ...resto} = this.props;
+    const cancion = reducerCanciones.reducerCargaCancion.cancion;
+    const album = reducerAlbums.reducerCargaAlbum.album;
     return (
       <div>
-        {this.state.song != undefined && this.state.album != undefined && this.state.songs != undefined ?
+        {cancion != undefined && album != undefined && reducerCanciones != undefined ?
           <div>
             <em> 
-              <Link to={`/album/${this.state.song.album_id}`}>{this.state.album.name}</Link> &nbsp; 
-              {this.state.song.name}
+              <Link to={`/album/${cancion.album_id}`}>{album.name}</Link> &nbsp; 
+              {cancion.name}
             </em>
 
             <div className="progress">
@@ -229,9 +167,11 @@ class Song extends Component {
               </button>
               Canciones 
             </h5>
-              { this.state.loading ?
+              { reducerCanciones.reducerCargaCancion.isLoading ?
               <p>Cargando...</p>
-              : <Lista objects={this.state.songs} albumId={this.props.match.params.album_id} tempoTotal={transformarSegundos(this.state.tiempoTotal)}
+              : <Lista objects={reducerCanciones.reducerCargaCanciones.canciones} 
+              albumId={this.props.match.params.album_id} 
+              tempoTotal={transformarSegundos(reducerCanciones.reducerCargaCanciones.canciones)}
               tipoLista={false}/>
               }
           </div>
@@ -243,4 +183,19 @@ class Song extends Component {
   }
 }
 
-export default Song;
+const mapStateToProps = (state) => ({
+  ...state
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getSongs: () => dispatch(getSongs()),
+  getSong: (id) => dispatch(getSong(id)),
+  getSongsFilterByAlbumId: (id) => dispatch(getSongsFilterByAlbumId(id)),
+  getAlbum: (id) => dispatch(getAlbum(id)),
+  addCancionEscuchada: (lista) => dispatch(addCancionEscuchada(lista))
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Song);

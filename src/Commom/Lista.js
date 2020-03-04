@@ -36,7 +36,7 @@ class Lista extends Component {
                 <tr className='StyloCursor' key={objeto.id} onClick={() => this.montarLink(objeto.id)}>
                     {this.props.tipoLista ? <td> <img src={objeto.cover} alt="cover" height="42" width="42"/></td> : null}
                     <td>{objeto.name}</td>
-                    {this.props.tipoLista ? <td>{objeto.artist}</td> : <td>{transformarSegundos(objeto.seconds)}</td>}
+                    {this.props.tipoLista ? <td>{objeto.artist}</td> : <td>{transformarSegundos([objeto])}</td>}
                 </tr>)}
 
                   {!this.props.tipoLista && this.props.tempoTotal != '00:00' ? 

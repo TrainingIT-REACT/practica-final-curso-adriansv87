@@ -1,4 +1,12 @@
-export const transformarSegundos = (time) => {
+export const transformarSegundos = (listaCanciones) => {
+  
+  var time = 0;
+  if(listaCanciones != undefined && listaCanciones != null && listaCanciones.length > 0) {
+    listaCanciones.map(f =>
+      time += f.seconds
+    );
+  }
+
   var hours = Math.floor( time / 3600 );
   var minutes = Math.floor( (time % 3600) / 60 );
   var seconds = time % 60;

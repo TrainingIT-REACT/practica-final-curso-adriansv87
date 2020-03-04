@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {transformarSegundos} from '../Commom/Funciones';
 import store from '../store';
+import { connect } from 'react-redux';
 import './App.css';
 
 const Lista = React.lazy(() => import('../Commom/Lista'));
@@ -48,8 +49,8 @@ class Inicio extends Component {
   }
 
   cargaListaCancionesEscuchadas(jsonCanciones) {
-    if ((store.getState().cancionesEscuchadas.cancionesEscuchadas != null) && (store.getState().cancionesEscuchadas.cancionesEscuchadas.length > 0)) {
-      var idsLisCanciones = store.getState().cancionesEscuchadas.cancionesEscuchadas;
+    if ((store.getState().reducerCanciones.cancionesEscuchadas != null) && (store.getState().reducerCanciones.cancionesEscuchadas.length > 0)) {
+      var idsLisCanciones = store.getState().reducerCanciones.cancionesEscuchadas;
       var songs = [];
       var acumulaTiempo = 0;
       jsonCanciones.filter(f => {
@@ -68,7 +69,7 @@ class Inicio extends Component {
   cargarListaSongsAlbumsVisitados(jsonCanciones) {
     if ((store.getState().albumsVisitados.albumsVisitados != null) && (store.getState().albumsVisitados.albumsVisitados.length > 0)) {
       var idsLisAlbums = store.getState().albumsVisitados.albumsVisitados;
-      var idsLisCanciones = store.getState().cancionesEscuchadas.cancionesEscuchadas;
+      var idsLisCanciones = store.getState().reducerCanciones.cancionesEscuchadas;
       var songs = [];
       var acumulaTiempo = 0;
 
@@ -96,7 +97,8 @@ class Inicio extends Component {
   }
 
   cargarListaSongsRandom(jsonCanciones) {
-    if ((store.getState().albumsVisitados.albumsVisitados.length == 0) && (store.getState().cancionesEscuchadas.cancionesEscuchadas.length == 0)) {
+    const {albumsVisitados, cancionesEscuchadas, ...resto} = this.props;
+    if ((store.getState().albumsVisitados.albumsVisitados.length == 0) && (store.getState().reducerCanciones.cancionesEscuchadas == undefined)) {
       const min = 1;
       const max = 50;
       const numElem = 5;
@@ -148,7 +150,7 @@ class Inicio extends Component {
               </h5>
                 { this.state.loading ?
                   null :
-                  <Suspense maxDuration={150} fallback={<div>Loading...</div>}>
+                  <Suspense fallback={<div>Loading...</div>}>
                     <Lista objects={this.state.listaIdsCancionesEscuchadas} tempoTotal={transformarSegundos(this.state.tiempoTotalSongEsc)} tipoLista={false}/>
                   </Suspense>
                 }
@@ -165,7 +167,7 @@ class Inicio extends Component {
               </h5>
                 { this.state.loading ?
                   null :
-                  <Suspense maxDuration={150} fallback={<div>Loading...</div>}>
+                  <Suspense fallback={<div>Loading...</div>}>
                     <Lista objects={this.state.listaIdsCancionesAlbumsVis} tempoTotal={transformarSegundos(this.state.tiempoTotalAlbumVis)} tipoLista={false}/>
                   </Suspense>
                 }
@@ -182,7 +184,7 @@ class Inicio extends Component {
               </h5>
                 { this.state.loading ?
                   null :
-                  <Suspense maxDuration={150} fallback={<div>Loading...</div>}>
+                  <Suspense fallback={<div>Loading...</div>}>
                     <Lista objects={this.state.listaIdsCancionesRandom} tempoTotal={transformarSegundos(this.state.tiempoTotal)} tipoLista={false}/>
                   </Suspense>
                 }
@@ -192,5 +194,12 @@ class Inicio extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  ...state
+});
+
+const mapDispatchToProps = (dispatch) => ({
+})
 
 export default Inicio;
