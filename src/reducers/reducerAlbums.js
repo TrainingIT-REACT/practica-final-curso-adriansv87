@@ -18,6 +18,44 @@ const reducerAlbumsVisitados = (state = initialState, action) => {
   }
 }
 
+// INICIO REDUCER ALBUMS
+const initialStateAlbums = {
+  isLoading: false,
+  albums: null,
+  error: false
+}
+
+// Implementamos el reducer de Carga de Albums
+export const reducerCargaAlbums = (state = initialStateAlbums, action) => {
+  switch(action.type) {
+      case types.CARGANDO_ALBUMS:
+        // Activamos isLoading.
+        // Eliminamos cualquier error anterior
+        return {
+          ...state,
+          isLoading: true,
+          error: false
+        };
+      case types.ALBUMS_CARGADOS:
+        // Cargamos la canciones
+        return {
+          isLoading: false,
+          albums: action.albums,
+          error: false
+        };
+      case types.ERROR_CARGA_ALBUMS:
+        // Desactivamos la carga y activamos el error
+        return {
+          ...state,
+          isLoading: false,
+          error: true
+        }
+    default:
+      return state;
+  }
+}
+// FIN REDUCER ALBUMS
+
 // INICIO REDUCER ALBUM
 const initialStateAlbumUnico = {
   isLoading: false,
@@ -25,7 +63,7 @@ const initialStateAlbumUnico = {
   error: false
 }
 
-// Implementamos el reducer de Carga de Canciones
+// Implementamos el reducer de Carga de Album
 export const reducerCargaAlbum = (state = initialStateAlbumUnico, action) => {
   switch(action.type) {
       case types.CARGANDO_ALBUM:
@@ -37,7 +75,7 @@ export const reducerCargaAlbum = (state = initialStateAlbumUnico, action) => {
           error: false
         };
       case types.ALBUM_CARGADO:
-        // Cargamos la canciones
+        // Cargamos el album
         return {
           isLoading: false,
           album: action.album,
@@ -56,5 +94,5 @@ export const reducerCargaAlbum = (state = initialStateAlbumUnico, action) => {
 }
 // FIN REDUCER ALBUM
 
-const reducer = combineReducers ({reducerAlbumsVisitados, reducerCargaAlbum});
+const reducer = combineReducers ({reducerAlbumsVisitados, reducerCargaAlbums, reducerCargaAlbum});
 export default reducer;

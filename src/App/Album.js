@@ -13,9 +13,7 @@ class Album extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-        filtro: ""
-    }
+    this.state = {}
   }
 
   async componentDidMount() {
@@ -59,8 +57,6 @@ class Album extends Component {
       <div>
         {album != undefined ?
           <div>
-            <p> {this.props.match.params.filtro} </p>
-
             <div className="row">
               <div className="col-md-2">
                 <img src={album.cover} alt="cover" height="150" width="150"/>
