@@ -11,6 +11,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop, faSignOutAlt, faInfo, faRedo, faHeadphones, faCompactDisc, faMusic, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Provider } from 'react-redux';
 
+// Librerías
 library.add(faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop, faSignOutAlt, faInfo, faRedo, faHeadphones, faCompactDisc, faMusic, faSearch);
 
 ReactDOM.render(
