@@ -52,7 +52,7 @@ export const getAlbum = (id) => async (dispatch) => {
       if(f.id == id) {
         s = f;
       }
-      dispatch(postsLoadedAlbum(f));
+      dispatch(postsLoadedAlbum(s));
     });
   } catch {
     dispatch(postsErrorAlbum());
