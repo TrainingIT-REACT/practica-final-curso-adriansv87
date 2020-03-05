@@ -11,6 +11,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop, faSignOutAlt, faInfo, faRedo, faHeadphones, faCompactDisc, faMusic, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Provider } from 'react-redux';
 
+import '@babel/polyfill';
+
 // Librerías
 library.add(faCheckSquare, faPlay, faPause, faBackward, faStepBackward, faForward, faStepForward, faStop, faSignOutAlt, faInfo, faRedo, faHeadphones, faCompactDisc, faMusic, faSearch);
 
@@ -20,7 +22,44 @@ ReactDOM.render(
   </Provider>,
 document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// Comprobamos que el navegador lo soporte:
+if ('serviceWorker' in navigator) {
+  // Esperamos a que cargue la web
+  window.addEventListener('load', () => {
+    // Intentamos instalar el Service worker
+    navigator.serviceWorker.register('/sw.js').then((registration) => {
+      // Se ha registrado correctamente
+      console.log('El service worker SW se ha registrado correctamente: ', registration.scope);
+
+      // Nos suscribimos al evento de nueva versión
+      registration.addEventListener('updatefound', () => {
+        // Obtenemos el nuevo worker
+        worker = registration.installing;
+
+        // Nos suscribimos a los cambios en su ciclo de vida
+        worker.addEventListener('statechange', () => {
+          // Comprobamos si ha habido un cambio
+          if (worker.state === 'installed') {
+            // Una vez que se ha instalado, mostramos el botón
+            const updateApp = document.getElementById('updateApplication');
+            updateApp.classList.add('show');
+          }
+        });
+      });
+    }, (err) => {
+      // registration failed :(
+      console.log('El registro de SW ha fallado :(', err);
+    });
+
+    // Nos suscribimos al evento de actualización
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!refreshing) {
+        // Forzamos la recarga de la página
+        window.location.reload();
+        refreshing = true;
+      }
+    });
+  });
+}
+
+  

@@ -55,5 +55,10 @@
     "webpack-dev-server": "^3.10.3",
     "workbox-webpack-plugin": "^5.0.0"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3001",
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>src/setupTests.js"
+    ]
+  }
 }
