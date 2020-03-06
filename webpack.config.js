@@ -6,12 +6,12 @@ const WorkBoxPlugin = require('workbox-webpack-plugin');
 const config = { 
     mode: 'development', // production, none // ... }
     entry: {  // Punto de entrada a tu aplicación
-        main:'./src/index.js',
-        vendor: ['react', 'react-dom', 'react-router-dom']
+        path:'./src/index.js'
+        //vendor: ['react', 'react-dom', 'react-router-dom']
     },
     output: { 
         path: path.resolve(__dirname, 'build'), // Carpeta de salida 
-        filename: '[name].[chunkhash:8].js', 
+        //filename: '[name].[chunkhash:8].js', 
         //chunkFilename: 'js/[name].app.js'
     }, 
     module: { 

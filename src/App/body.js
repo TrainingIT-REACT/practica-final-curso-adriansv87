@@ -22,7 +22,7 @@ export var Body = (usuario) => (
                 <Route exact path="/album/:id" component={Album}/>
                 <Route exact path="/song/:id/:album_id" component={Song}/>
                 <Route exact path="/song/:id" component={Song}/>
-
+                
                 <Suspense fallback={<div>Loading...</div>}>
                     <Route exact path="/" component={Inicio}/>
                     <Route path="/inicioSesion" component={InicioSesion}/>
@@ -34,6 +34,7 @@ export var Body = (usuario) => (
                     <Route path="/search" component={Search}/>
                     <Route path="/albums" component={Albums}/>
                 </Suspense>
+
 
                 <Route path="/" component={Inicio}/>
             </Switch>

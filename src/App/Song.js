@@ -122,13 +122,19 @@ class Song extends Component {
     const album = reducerAlbums.reducerCargaAlbum.album;
     return (
       <div>
-        {cancion != undefined && album != undefined && reducerCanciones != undefined ?
+        {cancion != undefined && reducerCanciones != undefined ?
           <div>
-            <em> 
-              <Link to={`/album/${cancion.album_id}`}>{album.name}</Link> &nbsp; 
-              {cancion.name}
-            </em>
-
+            {album != undefined ?
+              <em> 
+                <Link to={`/album/${cancion.album_id}`}>{album.name}</Link> &nbsp; 
+                {cancion.name}
+              </em>
+            :
+              <em> 
+                <Link to={`/album/${cancion.album_id}`}></Link> &nbsp; {cancion.name}
+              </em>
+            }
+            
             <div className="progress">
               <div className="progress-bar" role="progressbar"></div>
             </div>
