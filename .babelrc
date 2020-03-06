@@ -1,1 +1,24 @@
-{ "presets": ["@babel/preset-env", "@babel/preset-react"] }
+{
+    "presets": [
+        "@babel/preset-react",
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "browsers": [
+                        "> 0.5%",
+                        "last 2 versions",
+                        "Firefox ESR",
+                        "not dead"
+                    ]
+                },
+                "useBuiltIns": "entry",
+                "corejs": 2,
+                "debug": false
+            }
+        ]
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
+}

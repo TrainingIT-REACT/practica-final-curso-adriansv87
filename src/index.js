@@ -22,6 +22,13 @@ ReactDOM.render(
   </Provider>,
 document.getElementById('root'));
 
+ReactDOM.render(<App />, document.getElementById('root'));
+
+// Definimos la variable que contendrá al service worker
+let worker;
+// Esta variable indica que ya se ha forzado la recarga de la página
+let refreshing = false;
+
 // Comprobamos que el navegador lo soporte:
 if ('serviceWorker' in navigator) {
   // Esperamos a que cargue la web

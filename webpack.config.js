@@ -1,21 +1,18 @@
 // Librerías const 
 const path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const WorkBoxPlugin = require('workbox-webpack-plugin')
+const WorkBoxPlugin = require('workbox-webpack-plugin');
 
-module.exports = { 
+const config = { 
     mode: 'development', // production, none // ... }
-    entry: './src/index.js', // Punto de entrada a tu aplicación
-
-    // Otras configuraciones 
-    devServer: { 
-        // Carpeta de salida 
-        contentBase: './build', 
-        // Forzamos a que todas las peticiones se respondan con index.html 
-        historyApiFallback: true 
+    entry: {  // Punto de entrada a tu aplicación
+        main:'./src/index.js',
+        vendor: ['react', 'react-dom', 'react-router-dom']
     },
     output: { 
         path: path.resolve(__dirname, 'build'), // Carpeta de salida 
+        filename: '[name].[chunkhash:8].js', 
+        //chunkFilename: 'js/[name].app.js'
     }, 
     module: { 
         rules: [ 
@@ -40,7 +37,7 @@ module.exports = {
                 template: "./public/index.html", 
                 filename: "./index.html" 
             }) ,
-            new WorkboxPlugin.InjectManifest({
+            new WorkBoxPlugin.InjectManifest({
             swSrc: './src/sw.js',
             })
         ],
@@ -49,25 +46,25 @@ module.exports = {
             historyApiFallback: true,
             proxy: {
                 '/music': {
-                  target: 'http://localhost:3001',
-                  pathRewrite: {'^/music/': '/music/'},
-                  xfwd: true
-                },
-                '/songs': {
                     target: 'http://localhost:3001',
-                    pathRewrite: {'^/songs/': '/songs/'},
+                    pathRewrite: {'^/music/': '/music/'},
                     xfwd: true
-                },
-                '/albums': {
-                    target: 'http://localhost:3001',
-                    pathRewrite: {'^/albums/': '/albums/'},
-                    xfwd: true
-                },
-                '/images': {
-                    target: 'http://localhost:3001',
-                    pathRewrite: {'^/images/': '/images/'},
-                    xfwd: true
-                }
+                  },
+                  '/songs': {
+                      target: 'http://localhost:3001',
+                      pathRewrite: {'^/songs/': '/songs/'},
+                      xfwd: true
+                  },
+                  '/albums': {
+                      target: 'http://localhost:3001',
+                      pathRewrite: {'^/albums/': '/albums/'},
+                      xfwd: true
+                  },
+                  '/images': {
+                      target: 'http://localhost:3001',
+                      pathRewrite: {'^/images/': '/images/'},
+                      xfwd: true
+                  }
               },
         },
         devtool: 'source-map',
