@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from "redux";
-import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 import store from './store';
+import './index.css';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap'; 
 import { library } from "@fortawesome/fontawesome-svg-core";
