@@ -46,28 +46,9 @@ const config = {
             contentBase: './build',
             historyApiFallback: true,
             proxy: {
-                '/music': {
-                    target: 'http://localhost:3001',
-                    pathRewrite: {'^/music/': '/music/'},
-                    xfwd: true
-                  },
-                  '/songs': {
-                      target: 'http://localhost:3001',
-                      pathRewrite: {'^/songs/': '/songs/'},
-                      xfwd: true
-                  },
-                  '/albums': {
-                      target: 'http://localhost:3001',
-                      pathRewrite: {'^/albums/': '/albums/'},
-                      xfwd: true
-                  },
-                  '/images': {
-                      target: 'http://localhost:3001',
-                      pathRewrite: {'^/images/': '/images/'},
-                      xfwd: true
-                  }
-              },
-        },
+              '/': 'http://localhost:3001'
+            }
+          },
         devtool: 'source-map',
         optimization: {
             runtimeChunk: 'single',
