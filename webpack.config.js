@@ -10,9 +10,12 @@ const config = {
         //vendor: ['react', 'react-dom', 'react-router-dom']
     },
     output: { 
-        path: path.resolve(__dirname, 'build'), // Carpeta de salida 
-        //filename: '[name].[chunkhash:8].js', 
-        //chunkFilename: 'js/[name].app.js'
+        // path: path.resolve(__dirname, 'build'), // Carpeta de salida 
+        // publicPath: "/"
+
+        path: path.resolve(__dirname, 'build'),
+        // filename: "[name].js",
+        publicPath: "/",
     }, 
     module: { 
         rules: [ 
